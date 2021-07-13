@@ -8,14 +8,14 @@ import tkinter.ttk
 flag_release = False
 
 try:
-    import pgming_package.release as r
+    import practical_package.release as r
 except Exception:
     pass
 else:
     flag_release = r.flag
 
 if flag_release:
-    from pgming_package.fwmodule_general import *
+    from practical_package.fwmodule_general import *
 else:
     # variable route path control for VSCode debug
     import sys, os
