@@ -1,4 +1,3 @@
-# 文字コードリスト
 list_charcode = [
     'cp932',
     'shift_jis',
