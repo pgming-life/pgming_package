@@ -160,8 +160,4 @@ if __name__ == "__main__":
 
     # execute
     main_func()
-
-    # shutdown
-    #import sys
-    #sys.exit()
     
