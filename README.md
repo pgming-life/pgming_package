@@ -3,10 +3,10 @@
 This package is a practical python package.
 Also, this package mainly specialize in string analysis.
 
-### Packed Module Contents: :nine:
+### Packed module contents: :nine:
 
 * CUI control
-* GUI application
+* GUI application (Tkinter)
 * Progress function
 * Path search
 * Folder and file create
@@ -14,3 +14,28 @@ Also, this package mainly specialize in string analysis.
 * Text processing
 * Bit conversion
 * EXE release mode
+
+### How to use
+
+<pre>
+Directory Tree
+[project]
+├── pgming_package
+|   ├── .gitignore
+|   ├── LICENSE
+|   ├── README.md
+|   ├── __init__.py
+|   ├── ・・・.py
+└── main.py
+</pre>
+
+```python
+"""main.py"""
+from pgming_package import [module name] as hoge
+
+# run method
+hoge.[method]
+
+# instance generation
+fuga = hoge.[class]
+```
