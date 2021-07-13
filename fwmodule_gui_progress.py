@@ -417,8 +417,4 @@ if __name__ == "__main__":
     
     if app2.target.flag_running:
         app2.thread_end()
-
-    # shutdown
-    #import sys
-    #sys.exit()
-    
+        
