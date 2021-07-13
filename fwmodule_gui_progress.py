@@ -184,7 +184,7 @@ class ProgressLabel:
         dt_now = dt.datetime.now()
         self.label_progress['text'] = "{0}{1}{2}".format(
             text_end,
-            "【EndDatetime: {0}/{1}/{2} | {3}:{4}:{5}】".format(
+            "【End Datetime: {0}/{1}/{2} | {3}:{4}:{5}】".format(
                 dt_now.year,
                 dt_now.month if dt_now.month >= 10 else "0" + str(dt_now.month),
                 dt_now.day if dt_now.day >= 10 else "0" + str(dt_now.day),
@@ -192,7 +192,7 @@ class ProgressLabel:
                 dt_now.minute if dt_now.minute >= 10 else "0" + str(dt_now.minute),
                 dt_now.second if dt_now.second >= 10 else "0" + str(dt_now.second)
             ) if flag_dt else "",
-            "【動作時間: {}s】".format(time.time() - self.start) if flag_timer else ""
+            "【Operating Time: {}s】".format(time.time() - self.start) if flag_timer else ""
         )
 
 """

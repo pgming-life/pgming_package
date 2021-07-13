@@ -272,7 +272,7 @@ if __name__ == "__main__":
 
         # path_search_continue
         flag = path_search_continue(path_file)
-        print("result: " + flag)
+        print("result: " + "{}".format(flag))
         python_connection()
 
         # file_readlines

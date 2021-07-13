@@ -23,7 +23,7 @@ else:
 """
 def python_start():
     print("\nDo you want to run it?")
-    print("\nExecutes when the Enter key is pressed...")
+    print("Executes when the Enter key is pressed...")
     print("    (  I        I  )")
     print("    (  I   II   I  )")
     print("   ((  I  I  I  I  ))")
@@ -121,10 +121,10 @@ if __name__ == "__main__":
     @class_decorator
     def main_func():
         for i in range(5):
-            print("output result: " + i)
+            print("output result: " + "{}".format(i))
         python_connection()
         for i in range(5):
-            print("output result: " + i)
+            print("output result: " + "{}".format(i))
         python_connection()
 
         # Sub Calc

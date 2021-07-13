@@ -198,7 +198,7 @@ def bit_mask(base, mask, operand=16, flag_print=False):
     elif operand == 16:
         num0 = hex(base)
         num1 = hex(mask)
-        num3 = hex(base & mask)
+        num2 = hex(base & mask)
         if flag_print:
             print("base (hex):          " + "{}".format(num0))
             print("mask (hex):          " + "{}".format(num1))
