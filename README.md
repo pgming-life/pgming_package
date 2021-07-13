@@ -3,7 +3,7 @@
 This package is a practical python package.
 Also, this package mainly specialize in string analysis.
 
-### Packed Module Contents
+### Packed Module Contents: :nine:
 
 * CUI control
 * GUI application
