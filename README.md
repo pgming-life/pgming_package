@@ -3,7 +3,7 @@
 This package is a practical python package.
 Also, this package mainly specialize in string analysis.
 
-### Packed module contents: :nine:
+## Packed module contents: :nine:
 
 * CUI control
 * GUI application (Tkinter)
@@ -15,7 +15,7 @@ Also, this package mainly specialize in string analysis.
 * Bit conversion
 * EXE release mode
 
-### How to use
+## How to use:
 
 <pre>
 Directory Tree
