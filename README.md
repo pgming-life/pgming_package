@@ -20,7 +20,7 @@ Also, this package mainly specialize in string analysis.
 <pre>
 Directory Tree
 [project]
-├── pgming_package
+├── practical_package
 |   ├── .gitignore
 |   ├── LICENSE
 |   ├── README.md
@@ -31,7 +31,7 @@ Directory Tree
 
 ```python
 """main.py"""
-from pgming_package import [module name] as hoge
+from practical_package import [module name] as hoge
 
 # run method
 hoge.[method]
