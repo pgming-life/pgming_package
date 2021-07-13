@@ -121,10 +121,10 @@ if __name__ == "__main__":
     @class_decorator
     def main_func():
         for i in range(5):
-            print("output result: " + "{}".format(i))
+            print("output result: " + str(i))
         python_connection()
         for i in range(5):
-            print("output result: " + "{}".format(i))
+            print("output result: " + str(i))
         python_connection()
 
         # Sub Calc
