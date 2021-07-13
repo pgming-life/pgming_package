@@ -61,11 +61,10 @@ if __name__ == "__main__":
     b = counter(x, 2, "*")
     for i in range(10):
         c = counter()
-        a.count()
+        print(a.count())
         b.count()
         c.count()
     print(a.result())
     print(b.result())           # it is not 1024
     print(int(b.result() / x))  # reduce by one dose
     print(c.result())
-    
