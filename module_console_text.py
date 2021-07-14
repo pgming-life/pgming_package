@@ -232,8 +232,8 @@ class string_pick:
         ・n: strings of "n" times
         * Used for "s", "t", "u" (other than that: ex) string[obj.set("[string1]", m, n):obj.set("[string2]", m, n)])
         * When used for "u" ⇒ flag_u_strnum=False
-        * 0 time is 1 time
-        * Return -1 if there is no strings of "n" times
+        * 0 pieces is 1 piece
+        * Return -1 if there is no strings of "n" pieces
         ex1) obj.set("[string]", m, n)
     """
     def set(self, string, m=None, n=1):
