@@ -229,7 +229,7 @@ class string_pick:
     """
         Search Settings - Return Number or Strings
         ・m: start position
-        ・n: strings of "n" times
+        ・n: strings of "n" pieces
         * Used for "s", "t", "u" (other than that: ex) string[obj.set("[string1]", m, n):obj.set("[string2]", m, n)])
         * When used for "u" ⇒ flag_u_strnum=False
         * 0 pieces is 1 piece
