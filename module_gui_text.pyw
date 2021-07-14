@@ -281,7 +281,7 @@ if __name__ == "__main__":
             # folder_create
             self.label_progress.update(folder_create(path_folder).text)
             
-            .sleep(.2)
+            time.sleep(.2)
 
             # file_create
             self.label_progress.update(file_create(path_file).text)
