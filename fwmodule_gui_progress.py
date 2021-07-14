@@ -416,5 +416,5 @@ if __name__ == "__main__":
     print("GUI2 ended...")
     
     if app2.target.flag_running:
-        app2.thread_end()
+        app2.kill_tkinter()
         
