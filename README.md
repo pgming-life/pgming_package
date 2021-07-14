@@ -20,20 +20,21 @@ Also, this package mainly specialize in string analysis.
 <pre>
 Directory Tree
 [project]
-├── practical_package
-|   ├── .gitignore
-|   ├── LICENSE
-|   ├── README.md
-|   ├── __init__.py
-|   ├── ・・・.py
-└── main.py
+    ├── practical_package
+    |       ├── .gitignore
+    |       ├── LICENSE
+    |       ├── README.md
+    |       ├── __init__.py
+    |       ├── ・・・.py
+    |
+    └── main.py
 </pre>
 
 ```python
 """main.py"""
 from practical_package import [module name] as hoge
 
-# run method
+# use method
 hoge.[method]
 
 # instance generation
