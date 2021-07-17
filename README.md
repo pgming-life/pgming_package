@@ -33,7 +33,7 @@ Directory Tree
 ```python
 """main.py"""
 
-# Use Practical Package
+# use package
 from practical_package import [module name] as hoge
 
 # use method
