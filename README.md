@@ -32,6 +32,8 @@ Directory Tree
 
 ```python
 """main.py"""
+
+# Use Practical Package
 from practical_package import [module name] as hoge
 
 # use method
@@ -39,6 +41,7 @@ hoge.[method]
 
 # instance generation
 fuga = hoge.[class]
+fuga.[method]
 ```
 
 ## [UI Creator](https://pgming-ui-creator.com) for GUI application:
