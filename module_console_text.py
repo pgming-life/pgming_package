@@ -35,7 +35,7 @@ def folder_create(path_folder):
         print("Checked a folder. " + path_folder)
         
     if flag_none:
-        input("\nThere is no folder.{}\nDo you want to create a folder?{}Create when the Enter key is pressed\n...".format(path_folder))
+        input("\nThere is no folder. {}\nDo you want to create a folder?\nCreate when the Enter key is pressed...".format(path_folder))
         os.makedirs(path_folder, exist_ok=True)
         print("Created a folder. " + path_folder)
     
@@ -54,7 +54,7 @@ def file_create(path_file, lines_string=[], ecd=list_charcode[0]):
         print("Checked a file. " + path_file)
         
     if flag_none:
-        input("\nThere is no file.{}\nDo you want to create a file?{}Create when the Enter key is pressed\n...".format(path_file))
+        input("\nThere is no file. {}\nDo you want to create a file?\nCreate when the Enter key is pressed...".format(path_file))
         with open(path_file, 'w', encoding=ecd) as f:
             for line in lines_string:
                 f.writelines("{}\n".format(line))
