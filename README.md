@@ -125,3 +125,17 @@ window = tk.Tk()
 app = GuiApplication(master=window)
 app.mainloop()
 ```
+
+## EXE file conversion:
+
+### 1. release.py
+Please set to "True".
+```python
+# exe release flag
+flag = True
+```
+
+### 2. Command prompt
+```
+pyinstaller [path].py
+```
