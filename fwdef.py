@@ -8,7 +8,7 @@ import subprocess
 import ctypes
 import _winapi
 
-# subprocess bug fix
+# subprocess bug fix (EXE)
 ctypes.windll.kernel32.SetStdHandle(_winapi.STD_INPUT_HANDLE, 0)
 
 """
