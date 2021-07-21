@@ -7,6 +7,8 @@ from tqdm.autonotebook import tqdm
 import subprocess
 import ctypes
 import _winapi
+
+# subprocess bug fix
 ctypes.windll.kernel32.SetStdHandle(_winapi.STD_INPUT_HANDLE, 0)
 
 """
