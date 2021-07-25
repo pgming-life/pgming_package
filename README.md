@@ -21,12 +21,12 @@ Also, this package mainly specialize in string analysis.
 Directory Tree
 [project]
     ├── practical_package
-    |       ├── .gitignore
-    |       ├── LICENSE
-    |       ├── README.md
-    |       ├── __init__.py
-    |       ├── ・・・.py
-    |
+    │       ├── .gitignore
+    │       ├── LICENSE
+    │       ├── README.md
+    │       ├── __init__.py
+    │       ├── ・・・.py
+    │
     └── main.py
 </pre>
 
@@ -137,5 +137,9 @@ flag = True
 
 ### 2. Command prompt
 ```
-pyinstaller [path].py
+$ pyinstaller [path].py
 ```
+
+## License:
+
+MIT License (see [`LICENSE`](/LICENSE) file).
