@@ -137,7 +137,7 @@ flag = True
 
 ### 2. Command prompt
 ```
-$ pyinstaller [path].py
+$ pyinstaller [path]\main.py
 ```
 
 ## License:
