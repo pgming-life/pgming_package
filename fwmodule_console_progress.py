@@ -1,15 +1,15 @@
 """fwmodule_console_progress.py"""
 
-flag_release = False
+is_release = False
 
 try:
     import practical_package.release as r
 except Exception:
     pass
 else:
-    flag_release = r.flag
+    is_release = r.is_release
 
-if flag_release:
+if is_release:
     from practical_package.fwmodule_general import *
 else:
     # variable route path control for VSCode debug

@@ -1,2 +1,2 @@
 # exe release flag
-flag = False
+is_release = False

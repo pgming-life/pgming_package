@@ -2,16 +2,16 @@
 
 import collections as cl
 
-flag_release = False
+is_release = False
 
 try:
     import practical_package.release as r
 except Exception:
     pass
 else:
-    flag_release = r.flag
+    is_release = r.is_release
     
-if flag_release:
+if is_release:
     from practical_package.fwmodule_gui_progress import *
     from practical_package.charcode import *
 else:
@@ -30,18 +30,18 @@ else:
 def folder_create(path_folder):
     text_gui = ""
 
-    flag_none = False
+    is_none = False
     if not os.path.exists(path_folder):
-        flag_none = True
+        is_none = True
     else:
         text_gui = "Checked a folder. " + path_folder
         
-    if flag_none:
+    if is_none:
         os.makedirs(path_folder, exist_ok=True)
         text_gui = "Created a folder. " + path_folder
         
-    result = cl.namedtuple('result', 'flag, text')
-    return result(flag=False if flag_none else True, text=text_gui)
+    result = cl.namedtuple('result', 'is_out, text')
+    return result(is_out=False if is_none else True, text=text_gui)
 
 """
     File Create
@@ -51,20 +51,20 @@ def folder_create(path_folder):
 def file_create(path_file, lines_string=[], ecd=list_charcode[0]):
     text_gui = ""
     
-    flag_none = False
+    is_none = False
     if not os.path.exists(path_file):
-        flag_none = True
+        is_none = True
     else:
         text_gui = "Checked a file. " + path_file
         
-    if flag_none:
+    if is_none:
         with open(path_file, 'w', encoding=ecd) as f:
             for line in lines_string:
                 f.writelines("{}\n".format(line))
         text_gui = "Created a file. " + path_file
         
-    result = cl.namedtuple('result', 'flag, text')
-    return result(flag=False if flag_none else True, text=text_gui)
+    result = cl.namedtuple('result', 'is_out, text')
+    return result(is_out=False if is_none else True, text=text_gui)
 
 """
     Path Search - Warnning End
@@ -74,17 +74,17 @@ def file_create(path_file, lines_string=[], ecd=list_charcode[0]):
 def path_search_end(path):
     text_gui = ""
     
-    flag_none = False
+    is_none = False
     if not os.path.exists(path):
-        flag_none = True
+        is_none = True
     else:
         text_gui = "Checked. " + path
         
-    if flag_none:
+    if is_none:
         text_gui = "There is none... End the process. " + path
         
-    result = cl.namedtuple('result', 'flag, text')
-    return result(flag=False if flag_none else True, text=text_gui)
+    result = cl.namedtuple('result', 'is_out, text')
+    return result(is_out=False if is_none else True, text=text_gui)
 
 """
     Path Search - Warnning Continue
@@ -94,17 +94,17 @@ def path_search_end(path):
 def path_search_continue(path):
     text_gui = ""
     
-    flag_none = False
+    is_none = False
     if not os.path.exists(path):
-        flag_none = True
+        is_none = True
     else:
         text_gui = "Checked. " + path
         
-    if flag_none:
+    if is_none:
         text_gui = "None. However, processing continues. " + path
         
-    result = cl.namedtuple('result', 'flag, text')
-    return result(flag=False if flag_none else True, text=text_gui)
+    result = cl.namedtuple('result', 'is_out, text')
+    return result(is_out=False if is_none else True, text=text_gui)
 
 """
     Read Lines
@@ -112,7 +112,7 @@ def path_search_continue(path):
     ex) file_readlines("[file path]", '[encoding name]')
 """
 def file_readlines(path_file, ecd=''):
-    flag_none = False
+    is_none = False
     text_gui = ""
     list_line = []
     
@@ -135,13 +135,13 @@ def file_readlines(path_file, ecd=''):
                 #print("\n{}, file open error".format(j))
                 #print("{}\ncontinue...".format(err))
                 if i == len(list_charcode) - 1:
-                    flag_none = True
+                    is_none = True
                     text_gui = "Cannot be read. " + path_file
             else:
                 break
                 
-    result = cl.namedtuple('result', 'flag, text, line')
-    return result(flag=False if flag_none else True, text=text_gui, line=list_line)
+    result = cl.namedtuple('result', 'is_out, text, line')
+    return result(is_out=False if is_none else True, text=text_gui, line=list_line)
 
 """
     Lines List
@@ -151,7 +151,7 @@ def file_readlines(path_file, ecd=''):
     ex) lines_list("[string]", "[file path]", '[encoding name]')   
 """
 def lines_list(string, path_file, ecd=''):
-    flag_none = False
+    is_none = False
     text_gui = ""
     text = ""
     
@@ -172,14 +172,14 @@ def lines_list(string, path_file, ecd=''):
                 #print("\n{}, file open error".format(j))
                 #print("{}\ncontinue...".format(err))
                 if i == len(list_charcode) - 1:
-                    flag_none = True
+                    is_none = True
                     text_gui = "Cannot be read. " + path_file
             else:
                 break
 
     list_num = []
     list_line = []
-    if not flag_none:
+    if not is_none:
         lines = file_readlines(path_file, ecd if ecd else '').line
         num = 0
         for line in text.splitlines():
@@ -189,8 +189,8 @@ def lines_list(string, path_file, ecd=''):
         for i in list_num:
             list_line.append(lines[i - 1])
             
-    result = cl.namedtuple('result', 'flag, text, num, line')
-    return result(flag=False if flag_none else True, text=text_gui, num=list_num, line=list_line)
+    result = cl.namedtuple('result', 'is_out, text, num, line')
+    return result(is_out=False if is_none else True, text=text_gui, num=list_num, line=list_line)
 
 """
     String Control
@@ -205,15 +205,15 @@ class string_pick:
         ・s: start position
         ・t: shift
         ・u: number of strings
-        ・flag_u_strnum=False: the number of strings where the start position of "u" is 0
-        ・flag_u_strnum=True: the number of strings where the start position of "u" is "+s" and "+t"
+        ・is_u_strnum=False: the number of strings where the start position of "u" is 0
+        ・is_u_strnum=True: the number of strings where the start position of "u" is "+s" and "+t"
         ex) obj.pick("[string1]", s, t, u=obj.set("[string2]", m, n))
     """
-    def pick(self, string, s=None, t=None, u=None, flag_u_strnum=False):
+    def pick(self, string, s=None, t=None, u=None, is_u_strnum=False):
         s = self.line.find(string, s) if s is not None else self.line.find(string)
         if t is not None:
             if u is not None:
-                if flag_u_strnum:
+                if is_u_strnum:
                     t += s
                     u += t
                     name_string = self.line[t:u]
@@ -224,7 +224,7 @@ class string_pick:
                 t += s
                 name_string = self.line[t:]
         elif u is not None:
-            if flag_u_strnum:
+            if is_u_strnum:
                 u += s
                 name_string = self.line[s:u]
             else:
@@ -238,7 +238,7 @@ class string_pick:
         ・m: start position
         ・n: strings of "n" pieces
         * Used for "s", "t", "u" (other than that: ex) string[obj.set("[string1]", m, n):obj.set("[string2]", m, n)])
-        * When used for "u" ⇒ flag_u_strnum=False
+        * When used for "u" ⇒ is_u_strnum=False
         * 0 pieces is 1 piece
         * Return -1 if there is no strings of "n" pieces
         ex1) obj.set("[string]", m, n)
@@ -296,8 +296,8 @@ if __name__ == "__main__":
             time.sleep(.2)
 
             # file_readlines
-            flag, text, lines = file_readlines(path_file)
-            self.label_progress.update(flag)
+            is_out, text, lines = file_readlines(path_file)
+            self.label_progress.update(is_out)
             time.sleep(.2)
             self.label_progress.update(text)
             time.sleep(.2)
@@ -306,8 +306,8 @@ if __name__ == "__main__":
                 time.sleep(.02)
 
             # lines_list
-            flag, text, list_num, list_line = lines_list(string0, path_file)
-            self.label_progress.update(flag)
+            is_out, text, list_num, list_line = lines_list(string0, path_file)
+            self.label_progress.update(is_out)
             time.sleep(.2)
             self.label_progress.update(text)
             time.sleep(.2)
@@ -327,7 +327,7 @@ if __name__ == "__main__":
                 name_string = s.pick(string1, None, len(string1)+1, s.set(";"))
                 self.label_progress.update(name_string)
                 time.sleep(.2)
-                name_string = s.pick(string1, None, len(string1)+1, 1, flag_u_strnum=True)
+                name_string = s.pick(string1, None, len(string1)+1, 1, is_u_strnum=True)
                 self.label_progress.update(name_string)
                 time.sleep(.2)
 
@@ -357,8 +357,8 @@ if __name__ == "__main__":
                             time.sleep(0.2)
                         """
                         
-            self.receiver.flag_loop = False
-            self.label_progress.end("", flag_dt=True, flag_timer=True)
+            self.receiver.is_loop = False
+            self.label_progress.end("", is_dt=True, is_timer=True)
             
         def start(self):
             self.thread_target = threading.Thread(target = self.target)
@@ -383,9 +383,9 @@ if __name__ == "__main__":
             self.button_start.place(x=100, y=100)
             
         def start_event(self):
-            if not self.target.receiver.flag_loop:
-                self.target.receiver.flag_loop = True
-                self.target.receiver.flag_progress = False
+            if not self.target.receiver.is_loop:
+                self.target.receiver.is_loop = True
+                self.target.receiver.is_progress = False
                 self.target.receiver.start()
                 self.target.start()
     

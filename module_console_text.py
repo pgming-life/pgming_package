@@ -2,16 +2,16 @@
 
 import collections as cl
 
-flag_release = False
+is_release = False
 
 try:
     import practical_package.release as r
 except Exception:
     pass
 else:
-    flag_release = r.flag
+    is_release = r.is_release
 
-if flag_release:
+if is_release:
     from practical_package.fwmodule_console_progress import *
     from practical_package.charcode import *
 else:
@@ -28,18 +28,18 @@ else:
     ex) folder_create("[folder path]")
 """
 def folder_create(path_folder):
-    flag_none = False
+    is_none = False
     if not os.path.exists(path_folder):
-        flag_none = True
+        is_none = True
     else:
         print("Checked a folder. " + path_folder)
         
-    if flag_none:
+    if is_none:
         input("\nThere is no folder. {}\nDo you want to create a folder?\nCreate when the Enter key is pressed...".format(path_folder))
         os.makedirs(path_folder, exist_ok=True)
         print("Created a folder. " + path_folder)
     
-    return False if flag_none else True
+    return False if is_none else True
 
 """
     File Create
@@ -47,20 +47,20 @@ def folder_create(path_folder):
     ex) file_create("[file path]", list([lines in file]), '[encoding name]') 
 """
 def file_create(path_file, lines_string=[], ecd=list_charcode[0]):
-    flag_none = False
+    is_none = False
     if not os.path.exists(path_file):
-        flag_none = True
+        is_none = True
     else:
         print("Checked a file. " + path_file)
         
-    if flag_none:
+    if is_none:
         input("\nThere is no file. {}\nDo you want to create a file?\nCreate when the Enter key is pressed...".format(path_file))
         with open(path_file, 'w', encoding=ecd) as f:
             for line in lines_string:
                 f.writelines("{}\n".format(line))
         print("Created a file. " + path_file)
 
-    return False if flag_none else True
+    return False if is_none else True
 
 """
     Path Search - Warnning End
@@ -93,17 +93,17 @@ def path_search_end(*args, **kwargs):
     ex) path_search_continue("[folder path | file path]")
 """
 def path_search_continue(path):
-    flag_none = False
+    is_none = False
     if not os.path.exists(path):
-        flag_none = True
+        is_none = True
     else:
         print("Checked. " + path)
         
-    if flag_none:
+    if is_none:
         print("\nThere is no... " + path)
         input("Do you want to continue processing?\nContinues when the Enter key is pressed...")
         
-    return False if flag_none else True
+    return False if is_none else True
 
 """
     Read Lines
@@ -146,7 +146,7 @@ def file_readlines(path_file, ecd=''):
     ex) lines_list("[string]", "[file path]", '[encoding name]')    
 """
 def lines_list(string, path_file, ecd=''):
-    flag_none = False
+    is_none = False
     
     if ecd:
         try:
@@ -166,13 +166,13 @@ def lines_list(string, path_file, ecd=''):
                 #print("{}\ncontinue...".format(err))
                 if i == len(list_charcode) - 1:
                     print("Cannot be read. " + path_file)
-                    flag_none = True
+                    is_none = True
             else:
                 break
                 
     list_num = []
     list_line = []
-    if not flag_none:
+    if not is_none:
         lines = file_readlines(path_file, ecd if ecd else '')
         num = 0
         for line in text.splitlines():
@@ -198,15 +198,15 @@ class string_pick:
         ・s: start position
         ・t: shift
         ・u: number of strings
-        ・flag_u_strnum=False: the number of strings where the start position of "u" is 0
-        ・flag_u_strnum=True: the number of strings where the start position of "u" is "+s" and "+t"
+        ・is_u_strnum=False: the number of strings where the start position of "u" is 0
+        ・is_u_strnum=True: the number of strings where the start position of "u" is "+s" and "+t"
         ex) obj.pick("[string1]", s, t, u=obj.set("[string2]", m, n))
     """
-    def pick(self, string, s=None, t=None, u=None, flag_u_strnum=False):
+    def pick(self, string, s=None, t=None, u=None, is_u_strnum=False):
         s = self.line.find(string, s) if s is not None else self.line.find(string)
         if t is not None:
             if u is not None:
-                if flag_u_strnum:
+                if is_u_strnum:
                     t += s
                     u += t
                     name_string = self.line[t:u]
@@ -217,7 +217,7 @@ class string_pick:
                 t += s
                 name_string = self.line[t:]
         elif u is not None:
-            if flag_u_strnum:
+            if is_u_strnum:
                 u += s
                 name_string = self.line[s:u]
             else:
@@ -231,7 +231,7 @@ class string_pick:
         ・m: start position
         ・n: strings of "n" pieces
         * Used for "s", "t", "u" (other than that: ex) string[obj.set("[string1]", m, n):obj.set("[string2]", m, n)])
-        * When used for "u" ⇒ flag_u_strnum=False
+        * When used for "u" ⇒ is_u_strnum=False
         * 0 pieces is 1 piece
         * Return -1 if there is no strings of "n" pieces
         ex1) obj.set("[string]", m, n)
@@ -271,8 +271,8 @@ if __name__ == "__main__":
         path_search_end(path_file)
 
         # path_search_continue
-        flag = path_search_continue(path_file)
-        print("result: " + str(flag))
+        is_out = path_search_continue(path_file)
+        print("result: " + str(is_out))
         python_connection()
 
         # file_readlines
@@ -297,7 +297,7 @@ if __name__ == "__main__":
             print(name_string)
             name_string = s.pick(string1, None, len(string1)+1, s.set(";"))
             print(name_string)
-            name_string = s.pick(string1, None, len(string1)+1, 1, flag_u_strnum=True)
+            name_string = s.pick(string1, None, len(string1)+1, 1, is_u_strnum=True)
             print(name_string)
         print("----------------------")
         python_connection()

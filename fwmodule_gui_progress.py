@@ -5,16 +5,16 @@ import datetime as dt
 import tkinter as tk
 import tkinter.ttk
 
-flag_release = False
+is_release = False
 
 try:
     import practical_package.release as r
 except Exception:
     pass
 else:
-    flag_release = r.flag
+    is_release = r.is_release
 
-if flag_release:
+if is_release:
     from practical_package.fwmodule_general import *
 else:
     # variable route path control for VSCode debug
@@ -29,8 +29,8 @@ else:
 """
 class ProgressReceiver:
     def __init__(self, place_x, place_y):
-        self.flag_loop = False
-        self.flag_progress = False
+        self.is_loop = False
+        self.is_progress = False
         self.place_x = place_x
         self.place_y = place_y
         self.y_margin = 17
@@ -88,12 +88,12 @@ class ProgressReceiver:
 
     # progress start
     def progress_start(self):
-        while self.flag_loop:
+        while self.is_loop:
             try:
                 time.sleep(self.sec)
-                if self.flag_progress:
+                if self.is_progress:
                     for i, j in enumerate(self.label_python_move):
-                        if self.flag_loop:
+                        if self.is_loop:
                             j['text'] = self.lines_move[i]
                             time.sleep(self.sec)
                         else:
@@ -101,11 +101,11 @@ class ProgressReceiver:
                 else:
                     # all clear
                     for i in self.label_python_move:
-                        if self.flag_loop:
+                        if self.is_loop:
                             i['text'] = ""
                         else:
                             break
-                self.flag_progress = not self.flag_progress
+                self.is_progress = not self.is_progress
             except Exception:
                 # Avoid the Tkinter kill error.
                 pass
@@ -177,7 +177,7 @@ class ProgressLabel:
                 pass
 
     # label end
-    def end(self, text_end="", flag_dt=False, flag_timer=False):
+    def end(self, text_end="", is_dt=False, is_timer=False):
         self.i = 0
         if text_end == "":
             text_end = "You can start again..."
@@ -191,8 +191,8 @@ class ProgressLabel:
                 dt_now.hour if dt_now.hour >= 10 else "0" + str(dt_now.hour),
                 dt_now.minute if dt_now.minute >= 10 else "0" + str(dt_now.minute),
                 dt_now.second if dt_now.second >= 10 else "0" + str(dt_now.second)
-            ) if flag_dt else "",
-            "【Operating Time: {}s】".format(time.time() - self.start) if flag_timer else ""
+            ) if is_dt else "",
+            "【Operating Time: {}s】".format(time.time() - self.start) if is_timer else ""
         )
 
 """
@@ -202,7 +202,7 @@ class MoveProgressLabel:
     def __init__(self, place_x, place_y, text_len=10, text_ready=""):
         if text_ready == "":
             text_ready = "   Ready.   "
-        self.flag_loop = False
+        self.is_loop = False
         self.text_len = text_len
         self.yl = yajirushi_left()
         self.yr = yajirushi_right()
@@ -222,7 +222,7 @@ class MoveProgressLabel:
 
     # progress start
     def progress_start(self, text_update):
-        while self.flag_loop:
+        while self.is_loop:
             self.set.update(next(self.yl) * self.text_len + text_update + next(self.yr) * self.text_len)
             time.sleep(0.1)
 
@@ -270,14 +270,14 @@ if __name__ == "__main__":
             self.num = num      # test variable
             
         def target(self):
-            while self.receiver.flag_loop:
+            while self.receiver.is_loop:
                 print("num : ", self.num)
                 # If there is 1 second, it will not end in the middle.
                 #time.sleep(1)
                 # Split↓
                 # Since the processing is heavy, it is actually about 1.1 seconds.
                 for i in range(5):
-                    if self.receiver.flag_loop:
+                    if self.receiver.is_loop:
                         time.sleep(0.2)
                     else:
                         break
@@ -287,7 +287,7 @@ if __name__ == "__main__":
             #
             # ※processing contents※
             #
-            self.receiver.flag_loop = False
+            self.receiver.is_loop = False
             # ▲▲▲▲▲▲
             
         def start(self):
@@ -317,10 +317,10 @@ if __name__ == "__main__":
             self.button_end.place(x=100, y=350)
             
         def start_event(self):
-            if not self.target.receiver.flag_loop:
+            if not self.target.receiver.is_loop:
                 print("Started")
-                self.target.receiver.flag_loop = True
-                self.target.receiver.flag_progress = False
+                self.target.receiver.is_loop = True
+                self.target.receiver.is_progress = False
                 self.target.receiver.start()
                 self.target.start()
                 self.target.label_progress.update("num : {}".format(self.target.num))
@@ -330,14 +330,14 @@ if __name__ == "__main__":
             self.target.label_progress.update("num : {}".format(self.target.num))
             
         def end_event(self):
-            if self.target.receiver.flag_loop:
-                self.target.receiver.flag_loop = False
-                self.target.receiver.flag_progress = False
+            if self.target.receiver.is_loop:
+                self.target.receiver.is_loop = False
+                self.target.receiver.is_progress = False
                 self.target.label_progress.end()
                 print("Finished")
                 
         def kill_tkinter(self):
-            self.target.receiver.flag_loop = False
+            self.target.receiver.is_loop = False
             print("Tkinter killed")
     
     # run application
@@ -347,7 +347,7 @@ if __name__ == "__main__":
     app1.mainloop()
     print("GUI1 ended...")
     
-    if app1.target.receiver.flag_loop:
+    if app1.target.receiver.is_loop:
         app1.kill_tkinter()
 
     """
@@ -355,12 +355,12 @@ if __name__ == "__main__":
     """
     class ProcessingTarget:
         def __init__(self, self_root, bar_x, bar_y, bar_len):
-            self.flag_running = False
+            self.is_running = False
             self.progressbar = Progressbar(self_root, bar_x, bar_y, bar_len)
             
         def target(self):
             print("Started")
-            self.flag_running = True
+            self.is_running = True
             
             # processing contents
             # ▼▼▼▼▼▼
@@ -371,7 +371,7 @@ if __name__ == "__main__":
                 time.sleep(0.01)
             # ▲▲▲▲▲▲
             
-            self.flag_running = False
+            self.is_running = False
             print("Finished")
             
         def start(self):
@@ -399,7 +399,7 @@ if __name__ == "__main__":
             self.reset_button.place(x=195, y=80)
             
         def start_event(self):
-            if not self.target.flag_running:
+            if not self.target.is_running:
                 self.target.start()
                 
         def reset_event(self):
@@ -415,6 +415,6 @@ if __name__ == "__main__":
     app2.mainloop()
     print("GUI2 ended...")
     
-    if app2.target.flag_running:
+    if app2.target.is_running:
         app2.kill_tkinter()
         
