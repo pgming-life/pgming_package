@@ -40,8 +40,8 @@ def folder_create(path_folder):
         os.makedirs(path_folder, exist_ok=True)
         text_gui = "Created a folder. " + path_folder
         
-    result = cl.namedtuple('result', 'is_out, text')
-    return result(is_out=False if is_none else True, text=text_gui)
+    result = cl.namedtuple('result', 'is_ok, text')
+    return result(is_ok=False if is_none else True, text=text_gui)
 
 """
     File Create
@@ -63,8 +63,8 @@ def file_create(path_file, lines_string=[], ecd=list_charcode[0]):
                 f.writelines("{}\n".format(line))
         text_gui = "Created a file. " + path_file
         
-    result = cl.namedtuple('result', 'is_out, text')
-    return result(is_out=False if is_none else True, text=text_gui)
+    result = cl.namedtuple('result', 'is_ok, text')
+    return result(is_ok=False if is_none else True, text=text_gui)
 
 """
     Path Search - Warnning End
@@ -83,8 +83,8 @@ def path_search_end(path):
     if is_none:
         text_gui = "There is none... End the process. " + path
         
-    result = cl.namedtuple('result', 'is_out, text')
-    return result(is_out=False if is_none else True, text=text_gui)
+    result = cl.namedtuple('result', 'is_ok, text')
+    return result(is_ok=False if is_none else True, text=text_gui)
 
 """
     Path Search - Warnning Continue
@@ -103,8 +103,8 @@ def path_search_continue(path):
     if is_none:
         text_gui = "None. However, processing continues. " + path
         
-    result = cl.namedtuple('result', 'is_out, text')
-    return result(is_out=False if is_none else True, text=text_gui)
+    result = cl.namedtuple('result', 'is_ok, text')
+    return result(is_ok=False if is_none else True, text=text_gui)
 
 """
     Read Lines
@@ -140,8 +140,8 @@ def file_readlines(path_file, ecd=''):
             else:
                 break
                 
-    result = cl.namedtuple('result', 'is_out, text, line')
-    return result(is_out=False if is_none else True, text=text_gui, line=list_line)
+    result = cl.namedtuple('result', 'is_ok, text, line')
+    return result(is_ok=False if is_none else True, text=text_gui, line=list_line)
 
 """
     Lines List
@@ -189,8 +189,8 @@ def lines_list(string, path_file, ecd=''):
         for i in list_num:
             list_line.append(lines[i - 1])
             
-    result = cl.namedtuple('result', 'is_out, text, num, line')
-    return result(is_out=False if is_none else True, text=text_gui, num=list_num, line=list_line)
+    result = cl.namedtuple('result', 'is_ok, text, num, line')
+    return result(is_ok=False if is_none else True, text=text_gui, num=list_num, line=list_line)
 
 """
     String Control
@@ -296,8 +296,8 @@ if __name__ == "__main__":
             time.sleep(.2)
 
             # file_readlines
-            is_out, text, lines = file_readlines(path_file)
-            self.label_progress.update(is_out)
+            is_ok, text, lines = file_readlines(path_file)
+            self.label_progress.update(is_ok)
             time.sleep(.2)
             self.label_progress.update(text)
             time.sleep(.2)
@@ -306,8 +306,8 @@ if __name__ == "__main__":
                 time.sleep(.02)
 
             # lines_list
-            is_out, text, list_num, list_line = lines_list(string0, path_file)
-            self.label_progress.update(is_out)
+            is_ok, text, list_num, list_line = lines_list(string0, path_file)
+            self.label_progress.update(is_ok)
             time.sleep(.2)
             self.label_progress.update(text)
             time.sleep(.2)

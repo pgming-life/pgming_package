@@ -271,8 +271,8 @@ if __name__ == "__main__":
         path_search_end(path_file)
 
         # path_search_continue
-        is_out = path_search_continue(path_file)
-        print("result: " + str(is_out))
+        is_ok = path_search_continue(path_file)
+        print("result: " + str(is_ok))
         python_connection()
 
         # file_readlines
