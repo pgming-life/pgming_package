@@ -111,6 +111,7 @@ def path_search_continue(path):
     ex) file_readlines("[file path]", '[encoding name]')
 """
 def file_readlines(path_file, ecd=''):
+    is_none = False
     list_line = []
     
     if ecd:
@@ -132,11 +133,13 @@ def file_readlines(path_file, ecd=''):
                 #print("\n{}, file open error".format(j))
                 #print("{}\ncontinue...".format(err))
                 if i == len(list_charcode) - 1:
+                    is_none = True
                     print("Cannot be read. " + path_file)
             else:
                 break
-                
-    return list_line
+    
+    result = cl.namedtuple('result', 'is_ok, line')
+    return result(is_ok=False if is_none else True, line=list_line)
 
 """
     Lines List
@@ -182,8 +185,8 @@ def lines_list(string, path_file, ecd=''):
         for i in list_num:
             list_line.append(lines[i - 1])
             
-    result = cl.namedtuple('result', 'num, line')
-    return result(num=list_num, line=list_line)
+    result = cl.namedtuple('result', 'is_ok, num, line')
+    return result(is_ok=False if is_none else False if list_num == [] else True, num=list_num, line=list_line)
 
 """
     String Control
