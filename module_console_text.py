@@ -142,53 +142,6 @@ def file_readlines(path_file, ecd=''):
     return result(is_ok=False if is_none else True, line=list_line)
 
 """
-    Lines List
-    details:
-        Search the specified file from the input character string
-        and get the line number and line list where the character string is located.
-    ex) lines_list("[string]", "[file path]", '[encoding name]')    
-"""
-def lines_list(string, path_file, ecd=''):
-    is_none = False
-    
-    if ecd:
-        try:
-            with open(path_file, encoding=ecd) as f:
-                text = f.read()
-        except Exception:
-            pass
-        
-    if not ecd:
-        # brute force
-        for i, j in enumerate(list_charcode):
-            try:
-                with open(path_file, encoding=j) as f:
-                    text = f.read()
-            except Exception as err:
-                #print("\n{}, file open error".format(j))
-                #print("{}\ncontinue...".format(err))
-                if i == len(list_charcode) - 1:
-                    print("Cannot be read. " + path_file)
-                    is_none = True
-            else:
-                break
-                
-    list_num = []
-    list_line = []
-    if not is_none:
-        lines = file_readlines(path_file, ecd if ecd else '')
-        num = 0
-        for line in text.splitlines():
-            num += 1
-            if string in line:
-                list_num.append(num)
-        for i in list_num:
-            list_line.append(lines[i - 1])
-            
-    result = cl.namedtuple('result', 'is_ok, num, line')
-    return result(is_ok=False if is_none else False if list_num == [] else True, num=list_num, line=list_line)
-
-"""
     String Control
     ex) obj=string_pick(lines_list("[string]", "[file path]")[i])
 """
@@ -245,6 +198,62 @@ class string_pick:
         return m
 
 """
+    Lines List
+    details:
+        Search the specified file from the input character string
+        and get the line number and line list where the character string is located.
+    ex) lines_list("[string]", "[file path]", '[encoding name]')    
+"""
+def lines_list(string, path_file, ecd=''):
+    is_none = False
+    
+    if ecd:
+        try:
+            with open(path_file, encoding=ecd) as f:
+                text = f.read()
+        except Exception:
+            pass
+        
+    if not ecd:
+        # brute force
+        for i, j in enumerate(list_charcode):
+            try:
+                with open(path_file, encoding=j) as f:
+                    text = f.read()
+            except Exception as err:
+                #print("\n{}, file open error".format(j))
+                #print("{}\ncontinue...".format(err))
+                if i == len(list_charcode) - 1:
+                    print("Cannot be read. " + path_file)
+                    is_none = True
+            else:
+                break
+                
+    list_num_line = []
+    list_num_char = []
+    list_line = []
+    if not is_none:
+        lines = file_readlines(path_file, ecd if ecd else '').line
+        num_line = 0
+        for line in text.splitlines():
+            num_line += 1
+            cnt = 1
+            if line != "":
+                s = string_pick(line)
+                for _ in range(len(line)):
+                    num_char = s.set(string, 0, cnt)
+                    if num_char == -1:
+                        break
+                    list_num_line.append(num_line)
+                    list_num_char.append(num_char)
+                    cnt += 1
+        for num in list_num_line:
+            list_line.append(lines[num - 1])
+    
+    result = cl.namedtuple('result', 'is_ok, num_line, num_char, line')
+    return result(is_ok=False if is_none else False if list_num_line == [] else True, num_line=list_num_line, num_char=list_num_char, line=list_line)
+
+"""
     Tests
 """
 if __name__ == "__main__":
@@ -286,8 +295,9 @@ if __name__ == "__main__":
         
         # lines_list
         list = lines_list(string0, path_file)
-        for num, line in zip(list.num, list.line):
-            print(num)
+        for num_line, num_char, line in zip(list.num_line, list.num_char, list.line):
+            print(num_line)
+            print(num_char)
             print(line)
         python_connection()
 
