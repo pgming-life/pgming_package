@@ -144,55 +144,6 @@ def file_readlines(path_file, ecd=''):
     return result(is_ok=False if is_none else True, text=text_gui, line=list_line)
 
 """
-    Lines List
-    details:
-        Search the specified file from the input character string
-        and get the line number and line list where the character string is located.
-    ex) lines_list("[string]", "[file path]", '[encoding name]')   
-"""
-def lines_list(string, path_file, ecd=''):
-    is_none = False
-    text_gui = ""
-    text = ""
-    
-    if ecd:
-        try:
-            with open(path_file, encoding=ecd) as f:
-                text = f.read()
-        except Exception as err:
-            pass
-        
-    if not ecd:
-        # brute force
-        for i, j in enumerate(list_charcode):
-            try:
-                with open(path_file, encoding=j) as f:
-                    text = f.read()
-            except Exception as err:
-                #print("\n{}, file open error".format(j))
-                #print("{}\ncontinue...".format(err))
-                if i == len(list_charcode) - 1:
-                    is_none = True
-                    text_gui = "Cannot be read. " + path_file
-            else:
-                break
-
-    list_num = []
-    list_line = []
-    if not is_none:
-        lines = file_readlines(path_file, ecd if ecd else '').line
-        num = 0
-        for line in text.splitlines():
-            num += 1
-            if string in line:
-                list_num.append(num)
-        for i in list_num:
-            list_line.append(lines[i - 1])
-            
-    result = cl.namedtuple('result', 'is_ok, text, num, line')
-    return result(is_ok=False if is_none else True, text=text_gui, num=list_num, line=list_line)
-
-"""
     String Control
     ex) obj=string_pick(lines_list("[string]", "[file path]")[i])
 """
@@ -247,6 +198,64 @@ class string_pick:
         m = self.line.find(string, m) if m is not None else self.line.find(string)
         for _ in range(1, n): m = self.line.find(string, m + 1)
         return m
+
+"""
+    Lines List
+    details:
+        Search the specified file from the input character string
+        and get the line number and line list where the character string is located.
+    ex) lines_list("[string]", "[file path]", '[encoding name]')   
+"""
+def lines_list(string, path_file, ecd=''):
+    is_none = False
+    text_gui = ""
+    text = ""
+    
+    if ecd:
+        try:
+            with open(path_file, encoding=ecd) as f:
+                text = f.read()
+        except Exception as err:
+            pass
+        
+    if not ecd:
+        # brute force
+        for i, j in enumerate(list_charcode):
+            try:
+                with open(path_file, encoding=j) as f:
+                    text = f.read()
+            except Exception as err:
+                #print("\n{}, file open error".format(j))
+                #print("{}\ncontinue...".format(err))
+                if i == len(list_charcode) - 1:
+                    is_none = True
+                    text_gui = "Cannot be read. " + path_file
+            else:
+                break
+
+    list_num_line = []
+    list_num_char = []
+    list_line = []
+    if not is_none:
+        lines = file_readlines(path_file, ecd if ecd else '').line
+        num_line = 0
+        for line in text.splitlines():
+            num_line += 1
+            cnt = 1
+            if line != "":
+                s = string_pick(line)
+                for _ in range(len(line)):
+                    num_char = s.set(string, 0, cnt)
+                    if num_char == -1:
+                        break
+                    list_num_line.append(num_line)
+                    list_num_char.append(num_char)
+                    cnt += 1
+        for num in list_num_line:
+            list_line.append(lines[num - 1])
+    
+    result = cl.namedtuple('result', 'is_ok, text, num_line, num_char, line')
+    return result(is_ok=False if is_none else True, text=text_gui, num_line=list_num_line, num_char=list_num_char, line=list_line)
 
 """
     Tests
@@ -306,13 +315,15 @@ if __name__ == "__main__":
                 time.sleep(.02)
 
             # lines_list
-            is_ok, text, list_num, list_line = lines_list(string0, path_file)
+            is_ok, text, list_num_line, list_num_char, list_line = lines_list(string0, path_file)
             self.label_progress.update(is_ok)
             time.sleep(.2)
             self.label_progress.update(text)
             time.sleep(.2)
-            for num, line in zip(list_num, list_line):
-                self.label_progress.update(num)
+            for num_line, num_char, line in zip(list_num_line, list_num_char, list_line):
+                self.label_progress.update(num_line)
+                time.sleep(.02)
+                self.label_progress.update(num_char)
                 time.sleep(.02)
                 self.label_progress.update(line)
                 time.sleep(.02)
