@@ -136,10 +136,11 @@ def file_readlines(path_file, ecd=''):
                     is_none = True
                     print("Cannot be read. " + path_file)
             else:
+                ecd = j
                 break
     
-    result = cl.namedtuple('result', 'is_ok, line')
-    return result(is_ok=False if is_none else True, line=list_line)
+    result = cl.namedtuple('result', 'is_ok, encoding, line')
+    return result(is_ok=False if is_none else True, encoding=ecd, line=list_line)
 
 """
     String Control
@@ -227,6 +228,7 @@ def lines_list(string, path_file, ecd=''):
                     print("Cannot be read. " + path_file)
                     is_none = True
             else:
+                ecd = j
                 break
                 
     list_num_line = []
@@ -250,8 +252,8 @@ def lines_list(string, path_file, ecd=''):
         for num in list_num_line:
             list_line.append(lines[num - 1])
     
-    result = cl.namedtuple('result', 'is_ok, num_line, num_char, line')
-    return result(is_ok=False if is_none else False if list_num_line == [] else True, num_line=list_num_line, num_char=list_num_char, line=list_line)
+    result = cl.namedtuple('result', 'is_ok, encoding, num_line, num_char, line')
+    return result(is_ok=False if is_none else False if list_num_line == [] else True, encoding=ecd, num_line=list_num_line, num_char=list_num_char, line=list_line)
 
 """
     Tests

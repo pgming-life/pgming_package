@@ -22,36 +22,48 @@ else:
     Python Start
 """
 def python_start():
-    print("\nDo you want to run it?")
-    print("Executes when the Enter key is pressed...")
-    print("    (  I        I  )")
-    print("    (  I   II   I  )")
-    print("   ((  I  I  I  I  ))")
-    print("  ((  I   I  I   I  ))")
-    print(" ((  I   I    I   I  ))")
-    print(" ((  I    I  I    I  ))")
-    print(" ( (  I   I  I   I  ) )")
-    print(" ((( I I   II   I I )))")
-    print("  (((I  I  II  I  I)))")
-    print("   ([0)  I    I  (0])")
-    print("    ((I   I  I   I))")
-    print("     ((I        I))")
-    print("      ()I      I()")
-    print("       ( o    o )")
+    label_base = [
+        "\nDo you want to run it?",
+        "Executes when the Enter key is pressed...",
+        "    (  I        I  )",
+        "    (  I   II   I  )",
+        "   ((  I  I  I  I  ))",
+        "  ((  I   I  I   I  ))",
+        " ((  I   I    I   I  ))",
+        " ((  I    I  I    I  ))",
+        " ( (  I   I  I   I  ) )",
+        " ((( I I   II   I I )))",
+        "  (((I  I  II  I  I)))",
+        "   ([0)  I    I  (0])",
+        "    ((I   I  I   I))",
+        "     ((I        I))",
+        "      ()I      I()",
+        "       ( o    o )",
+    ]
+    for i in label_base:
+        print(i)
     input("        (__人__)")
-    print("           ((")
-    print("            ))")
-    print("           ((")
+    label_base = [
+        "           ((",
+        "            ))",
+        "           ((",
+    ]
+    for i in label_base:
+        print(i)
 
 """
     Python Connection
     details: Connection at the time of calculation result output.
 """
 def python_connection():
-    print("            ))")
-    print("           ((")
-    print("            ))")
-    print("           ((")
+    lines_move = [
+        "            ))",
+        "           ((",
+        "            ))",
+        "           ((",
+    ]
+    for i in lines_move:
+        print(i)
 
 """
     Sub Calc (Nondeterministic processing)
@@ -88,13 +100,17 @@ def guruguru():
     Python End
 """
 def python_end():
-    print("            ))")
-    print("           ((")
-    print("            ))")
-    print("           ((")
-    print("            ))")
-    print("           ((")
-    print("           )(")
+    lines_end = [
+        "            ))",
+        "           ((",
+        "            ))",
+        "           ((",
+        "            ))",
+        "           ((",
+        "           )(",
+    ]
+    for i in lines_end:
+        print(i)
     input("\nThe process is finished.\nCloses the window when the Enter key is pressed...\n\n")
     sys.exit()
 

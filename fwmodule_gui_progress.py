@@ -37,44 +37,51 @@ class ProgressReceiver:
         self.sec = 0.2
 
         # ascii art (DejaVu Sans)
+        label_base = [
+            "                        (    I      I     I    )",
+            "                        (    I     III    I    )",
+            "                     (    I        III       I    )",
+            "                  ( (  I        I      I        I  ) )",
+            "              ( (  I        I              I        I  ) )",
+            "             ( ( I         I                I         I ) )",
+            "            ( (   I            I        I            I   ) )",
+            "             (   ( I             I    I             I )   )",
+            "              ( ( (  I I           I           I I  ) ) )",
+            "                 ( (( I    I               I    I )) )",
+            "                    ( [(Θ))  I      I  ((Θ)] )",
+            "                      ( (I                    I) )",
+            "                        ( (I                I) )",
+            "                          (    o      o    )",
+            "                            (  __人__  )",
+        ]
+        
         self.label_python = []
-        self.label_python.append(tk.Label(text="                        (    I      I     I    )"))
-        self.label_python.append(tk.Label(text="                        (    I     III    I    )"))
-        self.label_python.append(tk.Label(text="                     (    I        III       I    )"))
-        self.label_python.append(tk.Label(text="                  ( (  I        I      I        I  ) )"))
-        self.label_python.append(tk.Label(text="              ( (  I        I              I        I  ) )"))
-        self.label_python.append(tk.Label(text="             ( ( I         I                I         I ) )"))
-        self.label_python.append(tk.Label(text="            ( (   I            I        I            I   ) )"))
-        self.label_python.append(tk.Label(text="             (   ( I             I    I             I )   )"))
-        self.label_python.append(tk.Label(text="              ( ( (  I I           I           I I  ) ) )"))
-        self.label_python.append(tk.Label(text="                 ( (( I    I               I    I )) )"))
-        self.label_python.append(tk.Label(text="                    ( [(Θ))  I      I  ((Θ)] )"))
-        self.label_python.append(tk.Label(text="                      ( (I                    I) )"))
-        self.label_python.append(tk.Label(text="                        ( (I                I) )"))
-        self.label_python.append(tk.Label(text="                          (    o      o    )"))
-        self.label_python.append(tk.Label(text="                            (  __人__  )"))
+        for i in label_base:
+            self.label_python.append(tk.Label(text=i))
         cnt_y_margin = counter(self.place_y, self.y_margin)
         for i in self.label_python:
             i.place(x=self.place_x, y=cnt_y_margin.result())
             cnt_y_margin.count()
 
         # moving label
-        self.lines_move = []
-        self.lines_move.append("                                   ((")
-        self.lines_move.append("                                   ))")
-        self.lines_move.append("                                   ((")
-        self.lines_move.append("                                   ))")
-        self.lines_move.append("                                   ((")
-        self.lines_move.append("                                   )(")
+        self.lines_move = [
+            "                                   ((",
+            "                                   ))",
+            "                                   ((",
+            "                                   ))",
+            "                                   ((",
+            "                                   )(",
+        ]
 
         # finish label
-        self.lines_end = []
-        self.lines_end.append("                                   ^ ")
-        self.lines_end.append("                            Complete!!")
-        self.lines_end.append("                                     ")
-        self.lines_end.append("                                     ")
-        self.lines_end.append("                                     ")
-        self.lines_end.append("                                     ")
+        self.lines_end = [
+            "                                   ^ ",
+            "                            Complete!!",
+            "                                     ",
+            "                                     ",
+            "                                     ",
+            "                                     ",
+        ]
 
         # Label line number assertion (Debug)
         #assert len(self.lines_move) == len(self.lines_end), "The number of lines in the moving label and finish label do not match."

@@ -138,10 +138,11 @@ def file_readlines(path_file, ecd=''):
                     is_none = True
                     text_gui = "Cannot be read. " + path_file
             else:
+                ecd = j
                 break
                 
-    result = cl.namedtuple('result', 'is_ok, text, line')
-    return result(is_ok=False if is_none else True, text=text_gui, line=list_line)
+    result = cl.namedtuple('result', 'is_ok, encoding, text, line')
+    return result(is_ok=False if is_none else True, encoding=ecd, text=text_gui, line=list_line)
 
 """
     String Control
@@ -231,6 +232,7 @@ def lines_list(string, path_file, ecd=''):
                     is_none = True
                     text_gui = "Cannot be read. " + path_file
             else:
+                ecd = j
                 break
 
     list_num_line = []
@@ -254,8 +256,8 @@ def lines_list(string, path_file, ecd=''):
         for num in list_num_line:
             list_line.append(lines[num - 1])
     
-    result = cl.namedtuple('result', 'is_ok, text, num_line, num_char, line')
-    return result(is_ok=False if is_none else True, text=text_gui, num_line=list_num_line, num_char=list_num_char, line=list_line)
+    result = cl.namedtuple('result', 'is_ok, encoding, text, num_line, num_char, line')
+    return result(is_ok=False if is_none else False if list_num_line == [] else True, encoding=ecd, text=text_gui, num_line=list_num_line, num_char=list_num_char, line=list_line)
 
 """
     Tests
@@ -305,8 +307,10 @@ if __name__ == "__main__":
             time.sleep(.2)
 
             # file_readlines
-            is_ok, text, lines = file_readlines(path_file)
+            is_ok, encoding, text, lines = file_readlines(path_file)
             self.label_progress.update(is_ok)
+            time.sleep(.2)
+            self.label_progress.update(encoding)
             time.sleep(.2)
             self.label_progress.update(text)
             time.sleep(.2)
@@ -315,8 +319,10 @@ if __name__ == "__main__":
                 time.sleep(.02)
 
             # lines_list
-            is_ok, text, list_num_line, list_num_char, list_line = lines_list(string0, path_file)
+            is_ok, encoding, text, list_num_line, list_num_char, list_line = lines_list(string0, path_file)
             self.label_progress.update(is_ok)
+            time.sleep(.2)
+            self.label_progress.update(encoding)
             time.sleep(.2)
             self.label_progress.update(text)
             time.sleep(.2)
