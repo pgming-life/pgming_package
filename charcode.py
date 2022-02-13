@@ -1,7 +1,7 @@
 list_charcode = [
-    'cp932',
-    'shift_jis',
     'utf_8',
     'euc_jp',
+    'cp932',
+    'shift_jis',
     'iso2022_jp',
     ]
