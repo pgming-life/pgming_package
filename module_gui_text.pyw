@@ -59,8 +59,11 @@ def file_create(path_file, lines_string=[], ecd=list_charcode[0]):
         
     if is_none:
         with open(path_file, 'w', encoding=ecd) as f:
-            for line in lines_string:
-                f.writelines("{}\n".format(line))
+            for i, j in enumerate(lines_string):
+                if i != len(lines_string) - 1:
+                    f.writelines("{}\n".format(j))
+                else:
+                    f.writelines("{}".format(j))
         text_gui = "Created a file. " + path_file
         
     result = cl.namedtuple('result', 'is_ok, text')
@@ -107,6 +110,42 @@ def path_search_continue(path):
     return result(is_ok=False if is_none else True, text=text_gui)
 
 """
+    Read
+    details: Read the entire contents of the file as all string.
+    ex) file_read("[file path]", '[encoding name]')
+"""
+def file_read(path_file, ecd=''):
+    is_none = False
+    text_gui = ""
+    text = []
+    
+    if ecd:
+        try:
+            with open(path_file, 'r', encoding=ecd) as f:
+                text = f.read()
+        except Exception:
+            pass
+        
+    if not ecd:
+        # brute force
+        for i, j in enumerate(list_charcode):
+            try:
+                with open(path_file, 'r', encoding=j) as f:
+                    text = f.read()
+            except Exception as err:
+                #print("\n{}, file open error".format(j))
+                #print("{}\ncontinue...".format(err))
+                if i == len(list_charcode) - 1:
+                    is_none = True
+                    text_gui = "Cannot be read. " + path_file
+            else:
+                ecd = j
+                break
+                
+    result = cl.namedtuple('result', 'is_ok, encoding, text, data')
+    return result(is_ok=False if is_none else True, encoding=ecd, text=text_gui, data=text)
+
+"""
     Read Lines
     details: Read the entire contents of the file as a line list.
     ex) file_readlines("[file path]", '[encoding name]')
@@ -118,7 +157,7 @@ def file_readlines(path_file, ecd=''):
     
     if ecd:
         try:
-            with open(path_file, encoding=ecd) as f:
+            with open(path_file, 'r', encoding=ecd) as f:
                 list_line = f.readlines()
                 list_line = [line.rstrip() for line in list_line]
         except Exception:
@@ -128,7 +167,7 @@ def file_readlines(path_file, ecd=''):
         # brute force
         for i, j in enumerate(list_charcode):
             try:
-                with open(path_file, encoding=j) as f:
+                with open(path_file, 'r', encoding=j) as f:
                     list_line = f.readlines()
                     list_line = [line.rstrip() for line in list_line]
             except Exception as err:
@@ -214,7 +253,7 @@ def lines_list(string, path_file, ecd=''):
     
     if ecd:
         try:
-            with open(path_file, encoding=ecd) as f:
+            with open(path_file, 'r', encoding=ecd) as f:
                 text = f.read()
         except Exception as err:
             pass
@@ -223,7 +262,7 @@ def lines_list(string, path_file, ecd=''):
         # brute force
         for i, j in enumerate(list_charcode):
             try:
-                with open(path_file, encoding=j) as f:
+                with open(path_file, 'r', encoding=j) as f:
                     text = f.read()
             except Exception as err:
                 #print("\n{}, file open error".format(j))
