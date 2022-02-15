@@ -10,7 +10,7 @@ except Exception:
     pass
 else:
     is_release = r.is_release
-    
+   
 if is_release:
     from practical_package.fwmodule_gui_progress import *
     from practical_package.charcode import *
@@ -35,28 +35,28 @@ def folder_create(path_folder):
         is_none = True
     else:
         text_gui = "Checked a folder. " + path_folder
-        
+       
     if is_none:
         os.makedirs(path_folder, exist_ok=True)
         text_gui = "Created a folder. " + path_folder
-        
+       
     result = cl.namedtuple('result', 'is_ok, text')
     return result(is_ok=False if is_none else True, text=text_gui)
 
 """
     File Create
     details: Checking and creating a file.
-    ex) file_create("[file path]", list([lines in file]), '[encoding name]') 
+    ex) file_create("[file path]", list([lines in file]), '[encoding name]')
 """
 def file_create(path_file, lines_string=[], ecd=list_charcode[0]):
     text_gui = ""
-    
+   
     is_none = False
     if not os.path.exists(path_file):
         is_none = True
     else:
         text_gui = "Checked a file. " + path_file
-        
+       
     if is_none:
         with open(path_file, 'w', encoding=ecd) as f:
             for i, j in enumerate(lines_string):
@@ -65,7 +65,7 @@ def file_create(path_file, lines_string=[], ecd=list_charcode[0]):
                 else:
                     f.writelines("{}".format(j))
         text_gui = "Created a file. " + path_file
-        
+       
     result = cl.namedtuple('result', 'is_ok, text')
     return result(is_ok=False if is_none else True, text=text_gui)
 
@@ -76,16 +76,16 @@ def file_create(path_file, lines_string=[], ecd=list_charcode[0]):
 """
 def path_search_end(path):
     text_gui = ""
-    
+   
     is_none = False
     if not os.path.exists(path):
         is_none = True
     else:
         text_gui = "Checked. " + path
-        
+       
     if is_none:
         text_gui = "There is none... End the process. " + path
-        
+       
     result = cl.namedtuple('result', 'is_ok, text')
     return result(is_ok=False if is_none else True, text=text_gui)
 
@@ -96,16 +96,16 @@ def path_search_end(path):
 """
 def path_search_continue(path):
     text_gui = ""
-    
+   
     is_none = False
     if not os.path.exists(path):
         is_none = True
     else:
         text_gui = "Checked. " + path
-        
+       
     if is_none:
         text_gui = "None. However, processing continues. " + path
-        
+       
     result = cl.namedtuple('result', 'is_ok, text')
     return result(is_ok=False if is_none else True, text=text_gui)
 
@@ -118,14 +118,14 @@ def file_read(path_file, ecd=''):
     is_none = False
     text_gui = ""
     text = []
-    
+   
     if ecd:
         try:
             with open(path_file, 'r', encoding=ecd) as f:
                 text = f.read()
         except Exception:
             pass
-        
+       
     if not ecd:
         # brute force
         for i, j in enumerate(list_charcode):
@@ -141,7 +141,7 @@ def file_read(path_file, ecd=''):
             else:
                 ecd = j
                 break
-                
+               
     result = cl.namedtuple('result', 'is_ok, encoding, text, data')
     return result(is_ok=False if is_none else True, encoding=ecd, text=text_gui, data=text)
 
@@ -153,23 +153,25 @@ def file_read(path_file, ecd=''):
 def file_readlines(path_file, ecd=''):
     is_none = False
     text_gui = ""
-    list_line = []
-    
+    lines = []
+   
     if ecd:
         try:
             with open(path_file, 'r', encoding=ecd) as f:
-                list_line = f.readlines()
-                list_line = [line.rstrip() for line in list_line]
+                data = f.read()
+                for line in data.split("\n"):
+                    lines.append(line)
         except Exception:
             pass
-        
+       
     if not ecd:
         # brute force
         for i, j in enumerate(list_charcode):
             try:
                 with open(path_file, 'r', encoding=j) as f:
-                    list_line = f.readlines()
-                    list_line = [line.rstrip() for line in list_line]
+                    data = f.read()
+                    for line in data.split("\n"):
+                        lines.append(line)
             except Exception as err:
                 #print("\n{}, file open error".format(j))
                 #print("{}\ncontinue...".format(err))
@@ -179,9 +181,9 @@ def file_readlines(path_file, ecd=''):
             else:
                 ecd = j
                 break
-                
+   
     result = cl.namedtuple('result', 'is_ok, encoding, text, line')
-    return result(is_ok=False if is_none else True, encoding=ecd, text=text_gui, line=list_line)
+    return result(is_ok=False if is_none else True, encoding=ecd, text=text_gui, line=lines)
 
 """
     String Control
@@ -190,7 +192,7 @@ def file_readlines(path_file, ecd=''):
 class string_pick:
     def __init__(self, line):
         self.line = line
-        
+       
     """
         Pick Strings
         ・s: start position
@@ -223,7 +225,7 @@ class string_pick:
         else:
             name_string = self.line[s:]
         return name_string
-    
+   
     """
         Search Settings - Return Number or Strings
         ・m: start position
@@ -244,20 +246,20 @@ class string_pick:
     details:
         Search the specified file from the input character string
         and get the line number and line list where the character string is located.
-    ex) lines_list("[string]", "[file path]", '[encoding name]')   
+    ex) lines_list("[string]", "[file path]", '[encoding name]')  
 """
 def lines_list(string, path_file, ecd=''):
     is_none = False
     text_gui = ""
     text = ""
-    
+   
     if ecd:
         try:
             with open(path_file, 'r', encoding=ecd) as f:
                 text = f.read()
         except Exception as err:
             pass
-        
+       
     if not ecd:
         # brute force
         for i, j in enumerate(list_charcode):
@@ -294,7 +296,7 @@ def lines_list(string, path_file, ecd=''):
                     cnt += 1
         for num in list_num_line:
             list_line.append(lines[num - 1])
-    
+   
     result = cl.namedtuple('result', 'is_ok, encoding, text, num_line, num_char, line')
     return result(is_ok=False if is_none else False if list_num_line == [] else True, encoding=ecd, text=text_gui, num_line=list_num_line, num_char=list_num_char, line=list_line)
 
@@ -309,28 +311,28 @@ if __name__ == "__main__":
     def debug_conf(ev):
         print(ev)
     """
-    
+   
     # test medium
     path_folder = "{}\\__pycache__".format(os.path.dirname(__file__))
     path_file = "{}\\test_text.cpp".format(os.path.dirname(__file__))
     string0 = "//"
     string1 = "return"
     string2 = "FAILED"
-    
+   
     try:
         subprocess.run(r"explorer {}".format(path_file))
     except Exception:
         pass
-    
+   
     class ProcessingTarget:
         def __init__(self, progress_x, progress_y, label_x, label_y):
             self.receiver = ProgressReceiver(progress_x, progress_y)
             self.label_progress = ProgressLabel(label_x, label_y)
-            
+           
         def target(self):
             # folder_create
             self.label_progress.update(folder_create(path_folder).text)
-            
+           
             time.sleep(.2)
 
             # file_create
@@ -412,15 +414,15 @@ if __name__ == "__main__":
                             self.label_progress.update("Arg:  " + j.strip())
                             time.sleep(0.2)
                         """
-                        
+                       
             self.receiver.is_loop = False
             self.label_progress.end("", is_dt=True, is_timer=True)
-            
+           
         def start(self):
             self.thread_target = threading.Thread(target = self.target)
             self.thread_target.setDaemon(True)
             self.thread_target.start()
-            
+           
     class GuiApplication(tk.Frame):
         def __init__(self, master=None):
             window_width = 900
@@ -433,20 +435,19 @@ if __name__ == "__main__":
             #self.bind('<Configure>', debug_conf)
             self.target = ProcessingTarget(progress_x=350, progress_y=50, label_x=100, label_y=20)
             self.create_widgets()
-            
+           
         def create_widgets(self):
             self.button_start = tk.ttk.Button(self, text="START", padding=10, command=self.start_event)
             self.button_start.place(x=100, y=100)
-            
+           
         def start_event(self):
             if not self.target.receiver.is_loop:
                 self.target.receiver.is_loop = True
                 self.target.receiver.is_progress = False
                 self.target.receiver.start()
                 self.target.start()
-    
+   
     # run application
     window = tk.Tk()
     app = GuiApplication(master=window)
     app.mainloop()
-    
