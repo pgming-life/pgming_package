@@ -46,9 +46,9 @@ def folder_create(path_folder):
 """
     File Create
     details: Checking and creating a file.
-    ex) file_create("[file path]", list([lines in file]), '[encoding name]')
+    ex) file_create("[file path]", list([text in file]), '[encoding name]')
 """
-def file_create(path_file, lines_string=[], ecd=list_charcode[0]):
+def file_create(path_file, string="", ecd=list_charcode[0]):
     text_gui = ""
    
     is_none = False
@@ -59,11 +59,14 @@ def file_create(path_file, lines_string=[], ecd=list_charcode[0]):
        
     if is_none:
         with open(path_file, 'w', encoding=ecd) as f:
-            for i, j in enumerate(lines_string):
-                if i != len(lines_string) - 1:
-                    f.writelines("{}\n".format(j))
-                else:
-                    f.writelines("{}".format(j))
+            if type(string) is str:
+                f.write(string)
+            else:   # lines list
+                for i, j in enumerate(string):
+                    if i != len(string) - 1:
+                        f.writelines("{}\n".format(j))
+                    else:
+                        f.writelines("{}".format(j))
         text_gui = "Created a file. " + path_file
        
     result = cl.namedtuple('result', 'is_ok, text')
