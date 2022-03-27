@@ -351,9 +351,9 @@ if __name__ == "__main__":
             time.sleep(self.sec)
 
             # file_read
-            root = file_read(path_file)
-            for i, j in enumerate(root):
-                if i == len(root) - 1:
+            order = file_read(path_file)
+            for i, j in enumerate(order):
+                if i == len(order) - 1:
                     for line in j.split("\n"):
                         self.label_progress.update(line)
                         time.sleep(self.sec * .1)
@@ -361,9 +361,9 @@ if __name__ == "__main__":
                     self.label_progress.update(j)
 
             # file_readlines
-            root = file_readlines(path_file)
-            for i, j in enumerate(root):
-                if i == len(root) - 1:
+            order = file_readlines(path_file)
+            for i, j in enumerate(order):
+                if i == len(order) - 1:
                     for line in j:
                         self.label_progress.update(line)
                         time.sleep(self.sec * .1)

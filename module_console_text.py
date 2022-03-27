@@ -334,30 +334,29 @@ if __name__ == "__main__":
         python_connection()
 
         # file_read
-        root = file_read(path_file)
-        for i in root:
+        order = file_read(path_file)
+        for i in order:
             print(i)
         python_connection()
 
         # file_readlines
-        root = file_readlines(path_file)
-        for i in root:
+        order = file_readlines(path_file)
+        for i in order:
             print(i)
         python_connection()
         
         # lines_list
-        root = lines_list(string0, path_file)
-        print(root.is_ok)
-        print(root.encoding)
-        for num_line, num_char, line in zip(root.num_line, root.num_char, root.line):
+        order = lines_list(string0, path_file)
+        print(order.is_ok)
+        print(order.encoding)
+        for num_line, num_char, line in zip(order.num_line, order.num_char, order.line):
             print(num_line)
             print(num_char)
             print(line)
         python_connection()
 
         # string_pick
-        root = lines_list(string1, path_file)
-        for i in root.line:
+        for i in lines_list(string1, path_file).line:
             s = string_pick(i)
             print("----------------------")
             name_string = i[s.set(string1):(s.set(";") if s.set(";") != -1 else len(i))]
@@ -370,8 +369,7 @@ if __name__ == "__main__":
         python_connection()
         
         # string_pick - read function arguments recursively
-        root = lines_list(string2, path_file)
-        for i in root.line:
+        for i in lines_list(string2, path_file).line:
             s = string_pick(i)
             func_or_val = s.pick("(", s.set(string2), 1, s.set("(", s.set(string2), 2) if s.set("(", s.set(string2), 2) != -1 else s.set(")"))
             print("----------------------")
