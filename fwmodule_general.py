@@ -29,7 +29,7 @@ class counter:
         self.radix = radix
         self.operand = operand
         self.operator = operator
-    def count(self):
+    def count(self) -> int:
         if self.operator == "+":
             self.radix += self.operand
         elif self.operator == "-":
@@ -47,7 +47,7 @@ class counter:
         else:
             self.radix = None
         return self.radix
-    def result(self):
+    def result(self) -> int:
         return self.radix
 
 """

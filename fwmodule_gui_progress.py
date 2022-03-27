@@ -28,13 +28,13 @@ else:
     details: Sub Calc (Nondeterministic processing)
 """
 class ProgressReceiver:
-    def __init__(self, place_x, place_y):
+    def __init__(self, place_x: int, place_y: int):
         self.is_loop = False
         self.is_progress = False
         self.place_x = place_x
         self.place_y = place_y
         self.y_margin = 17
-        self.sec = 0.2
+        self.sec = .2
 
         # ascii art (DejaVu Sans)
         label_base = [
@@ -93,8 +93,8 @@ class ProgressReceiver:
             i.place(x=self.place_x, y=cnt_y_margin.result())
             cnt_y_margin.count()
 
-    # progress start
-    def progress_start(self):
+    # sub thread
+    def progress_start(self) -> None:
         while self.is_loop:
             try:
                 time.sleep(self.sec)
@@ -126,7 +126,7 @@ class ProgressReceiver:
             pass
 
     # thread start
-    def start(self):
+    def start(self) -> None:
         self.thread_progress = threading.Thread(target = self.progress_start)
         self.thread_progress.setDaemon(True)
         self.thread_progress.start()
@@ -136,18 +136,18 @@ class ProgressReceiver:
     details: Main Calc (Deterministic processing)
 """
 class Progressbar:
-    def __init__(self, self_root, bar_x, bar_y, bar_len, i=100):
+    def __init__(self, self_root, bar_x: int, bar_y: int, bar_len: int, i=100):
         self.set = tk.ttk.Progressbar(self_root, length=bar_len)
         self.set.configure(value=0, mode="determinate", maximum=i)
         self.set.place(x=bar_x, y=bar_y)
 
     # progress update
-    def update(self, i):
+    def update(self, i: int) -> None:
         self.set.configure(value=i+1)
         self.set.update()
 
     # progress reset
-    def reset(self):
+    def reset(self) -> None:
         self.set.stop()
 
 """
@@ -155,7 +155,7 @@ class Progressbar:
     details: Display the current processing content.
 """
 class ProgressLabel:
-    def __init__(self, place_x, place_y, text_ready=""):
+    def __init__(self, place_x: int, place_y: int, text_ready=""):
         if text_ready == "":
             text_ready = "You can start the process..."
         self.label_progress = tk.Label(text=text_ready)
@@ -164,7 +164,7 @@ class ProgressLabel:
         self.i = 0
 
     # label update
-    def update(self, text_update=""):
+    def update(self, text_update="") -> None:
         if self.i == 0:
             self.start = time.time()
         self.i += 1
@@ -184,7 +184,7 @@ class ProgressLabel:
                 pass
 
     # label end
-    def end(self, text_end="", is_dt=False, is_timer=False):
+    def end(self, text_end="", is_dt=False, is_timer=False) -> None:
         self.i = 0
         if text_end == "":
             text_end = "You can start again..."
@@ -206,7 +206,7 @@ class ProgressLabel:
     Moving Progress Label
 """
 class MoveProgressLabel:
-    def __init__(self, place_x, place_y, text_len=10, text_ready=""):
+    def __init__(self, place_x: int, place_y: int, text_len=10, text_ready=""):
         if text_ready == "":
             text_ready = "   Ready.   "
         self.is_loop = False
@@ -220,21 +220,21 @@ class MoveProgressLabel:
         )
 
     # moving label end
-    def end(self, text_end=""):
+    def end(self, text_end="") -> None:
         if text_end == "":
             text_end = "   Finish   "
         self.yl = yajirushi_left()
         self.yr = yajirushi_right()
         self.set.end(next(self.yl) * self.text_len + text_end + next(self.yr) * self.text_len)
 
-    # progress start
-    def progress_start(self, text_update):
+    # sub thread
+    def progress_start(self, text_update: str) -> None:
         while self.is_loop:
             self.set.update(next(self.yl) * self.text_len + text_update + next(self.yr) * self.text_len)
             time.sleep(0.1)
 
     # thread start
-    def start(self, text_update=""):
+    def start(self, text_update="") -> None:
         if text_update == "":
             text_update = " Processing "
         self.thread_progress = threading.Thread(target = self.progress_start, args=(text_update,))
@@ -242,14 +242,14 @@ class MoveProgressLabel:
         self.thread_progress.start()
     
 # yajirushi generator left
-def yajirushi_left():
+def yajirushi_left() -> None:
     i = 0
     while 1:
         yield ">>>=<<<="[i % 8]
         i += 1
 
 # yajirushi generator right
-def yajirushi_right():
+def yajirushi_right() -> None:
     i = 0
     while 1:
         yield "<<<=>>>="[i % 8]
@@ -271,19 +271,20 @@ if __name__ == "__main__":
         GUI Test (Nondeterministic processing)
     """
     class ProcessingTarget:
-        def __init__(self, place_x, place_y, num):
+        def __init__(self, place_x: int, place_y: int, num: int):
             self.receiver = ProgressReceiver(place_x, place_y)
             self.label_progress = ProgressLabel(place_x+80, place_y-25)
+            self.label_move = MoveProgressLabel(place_x, place_y+400)
             self.num = num      # test variable
-            
-        def target(self):
+        
+        def target(self) -> None:
             while self.receiver.is_loop:
                 print("num : ", self.num)
                 # If there is 1 second, it will not end in the middle.
                 #time.sleep(1)
                 # Split↓
                 # Since the processing is heavy, it is actually about 1.1 seconds.
-                for i in range(5):
+                for _ in range(5):
                     if self.receiver.is_loop:
                         time.sleep(0.2)
                     else:
@@ -297,7 +298,7 @@ if __name__ == "__main__":
             self.receiver.is_loop = False
             # ▲▲▲▲▲▲
             
-        def start(self):
+        def start(self) -> None:
             self.thread_target = threading.Thread(target = self.target)
             self.thread_target.setDaemon(True)
             self.thread_target.start()
@@ -315,7 +316,7 @@ if __name__ == "__main__":
             self.target = ProcessingTarget(place_x=350, place_y=50, num=1)
             self.create_widgets()
             
-        def create_widgets(self):
+        def create_widgets(self) -> None:
             self.button_start = tk.ttk.Button(self, text="START", padding=10, command=self.start_event)
             self.button_start.place(x=100, y=100)
             self.button_change = tk.ttk.Button(self, text="CONV", padding=10, command=self.change_event)
@@ -323,27 +324,31 @@ if __name__ == "__main__":
             self.button_end = tk.ttk.Button(self, text="END", padding=10, command=self.end_event)
             self.button_end.place(x=100, y=350)
             
-        def start_event(self):
+        def start_event(self) -> None:
             if not self.target.receiver.is_loop:
                 print("Started")
                 self.target.receiver.is_loop = True
                 self.target.receiver.is_progress = False
                 self.target.receiver.start()
+                self.target.label_move.is_loop = True
+                self.target.label_move.start()
                 self.target.start()
                 self.target.label_progress.update("num : {}".format(self.target.num))
                 
-        def change_event(self):
+        def change_event(self) -> None:
             self.target.num += 1
             self.target.label_progress.update("num : {}".format(self.target.num))
             
-        def end_event(self):
+        def end_event(self) -> None:
             if self.target.receiver.is_loop:
                 self.target.receiver.is_loop = False
                 self.target.receiver.is_progress = False
+                self.target.label_move.is_loop = False
+                self.target.label_move.end()
                 self.target.label_progress.end()
                 print("Finished")
                 
-        def kill_tkinter(self):
+        def kill_tkinter(self) -> None:
             self.target.receiver.is_loop = False
             print("Tkinter killed")
     
@@ -361,11 +366,11 @@ if __name__ == "__main__":
         GUI Test (Deterministic processing)
     """
     class ProcessingTarget:
-        def __init__(self, self_root, bar_x, bar_y, bar_len):
+        def __init__(self, self_root, bar_x: int, bar_y: int, bar_len: int):
             self.is_running = False
             self.progressbar = Progressbar(self_root, bar_x, bar_y, bar_len)
             
-        def target(self):
+        def target(self) -> None:
             print("Started")
             self.is_running = True
             
@@ -381,14 +386,14 @@ if __name__ == "__main__":
             self.is_running = False
             print("Finished")
             
-        def start(self):
+        def start(self) -> None:
             self.thread_target = threading.Thread(target = self.target)
             self.thread_target.setDaemon(True)
             self.thread_target.start()
             
     class GuiApplication(tk.Frame):
         def __init__(self, master=None):
-            window_width = 335
+            window_width = 400
             window_height = 150
             super().__init__(master, width=window_width, height=window_height)            
             self.master = master
@@ -396,23 +401,23 @@ if __name__ == "__main__":
             self.master.minsize(window_width, window_height)
             self.pack()
             #self.bind('<Configure>', debug_conf)
-            self.target = ProcessingTarget(self, bar_x=10, bar_y=30, bar_len=315)
+            self.target = ProcessingTarget(self, bar_x=10, bar_y=30, bar_len=380)
             self.create_widgets()
             
-        def create_widgets(self):
+        def create_widgets(self) -> None:
             self.start_button = tk.ttk.Button(self, command=self.start_event, text="START")
-            self.start_button.place(x=60, y=80)
+            self.start_button.place(x=90, y=80)
             self.reset_button = tk.ttk.Button(self, command=self.reset_event, text="RESET")
-            self.reset_button.place(x=195, y=80)
+            self.reset_button.place(x=230, y=80)
             
-        def start_event(self):
+        def start_event(self) -> None:
             if not self.target.is_running:
                 self.target.start()
                 
-        def reset_event(self):
+        def reset_event(self) -> None:
             self.target.progressbar.reset()
             
-        def kill_tkinter(self):
+        def kill_tkinter(self) -> None:
             print("Tkinter killed")
     
     # run application

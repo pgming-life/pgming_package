@@ -27,7 +27,7 @@ else:
     details: Checking and creating a folder.
     ex) folder_create("[folder path]")
 """
-def folder_create(path_folder):
+def folder_create(path_folder: str) -> bool:
     is_none = False
     if not os.path.exists(path_folder):
         is_none = True
@@ -46,7 +46,7 @@ def folder_create(path_folder):
     details: Checking and creating a file.
     ex) file_create("[file path]", list([lines in file]), '[encoding name]') 
 """
-def file_create(path_file, lines_string=[], ecd=list_charcode[0]):
+def file_create(path_file: str, string="", ecd=list_charcode[0]) -> bool:
     is_none = False
     if not os.path.exists(path_file):
         is_none = True
@@ -56,8 +56,14 @@ def file_create(path_file, lines_string=[], ecd=list_charcode[0]):
     if is_none:
         input("\nThere is no file. {}\nDo you want to create a file?\nCreate when the Enter key is pressed...".format(path_file))
         with open(path_file, 'w', encoding=ecd) as f:
-            for line in lines_string:
-                f.writelines("{}\n".format(line))
+            if type(string) is str:
+                f.write(string)
+            else:   # lines list
+                for i, j in enumerate(string):
+                    if i != len(string) - 1:
+                        f.wirtelines("{}\n".format(j))
+                    else:
+                        f.writelines("{}".format(j))
         print("Created a file. " + path_file)
 
     return False if is_none else True
@@ -67,7 +73,7 @@ def file_create(path_file, lines_string=[], ecd=list_charcode[0]):
     details: Checking the folders and files.
     ex) path_search_end("[folder path]", "[folder path]", "[file path]", ・・・)
 """
-def path_search_end(*args, **kwargs):
+def path_search_end(*args: str, **kwargs: str) -> exit:
     list_none = []
     for i in args:
         if not os.path.exists(i):
@@ -80,7 +86,7 @@ def path_search_end(*args, **kwargs):
         else:
             print("Checked. " + i)
             
-    if list_none:
+    if list_none != []:
         print()
         for i in list_none:
             print("There is no... " + i)
@@ -92,7 +98,7 @@ def path_search_end(*args, **kwargs):
     details: Checking the folder or file.
     ex) path_search_continue("[folder path | file path]")
 """
-def path_search_continue(path):
+def path_search_continue(path: str) -> bool:
     is_none = False
     if not os.path.exists(path):
         is_none = True
@@ -106,19 +112,55 @@ def path_search_continue(path):
     return False if is_none else True
 
 """
+    Read
+    details: Read the entire contents of the file as all string.
+    ex) file_read("[file path]", '[encoding name]')
+"""
+def file_read(path_file: str, ecd='') -> cl.namedtuple:
+    is_none = False
+    text = ""
+
+    if ecd:
+        try:
+            with open(path_file, 'r', encoding=ecd) as f:
+                text = f.read()
+        except Exception:
+            pass
+       
+    if not ecd:
+        # brute force
+        for i, j in enumerate(list_charcode):
+            try:
+                with open(path_file, 'r', encoding=j) as f:
+                    text = f.read()
+            except Exception as err:
+                #print("\n{}, file open error".format(j))
+                #print("{}\ncontinue...".format(err))
+                if i == len(list_charcode) - 1:
+                    is_none = True
+                    print("Cannot be read. " + path_file)
+            else:
+                ecd = j
+                break
+               
+    result = cl.namedtuple('result', 'is_ok, encoding, data')
+    return result(is_ok=False if is_none else True, encoding=ecd, data=text)
+
+"""
     Read Lines
     details: Read the entire contents of the file as a line list.
     ex) file_readlines("[file path]", '[encoding name]')
 """
-def file_readlines(path_file, ecd=''):
+def file_readlines(path_file: str, ecd='') -> cl.namedtuple:
     is_none = False
-    list_line = []
+    lines = []
     
     if ecd:
         try:
-            with open(path_file, encoding=ecd) as f:
-                list_line = f.readlines()
-                list_line = [line.rstrip() for line in list_line]
+            with open(path_file, 'r', encoding=ecd) as f:
+                data = f.read()
+                for line in data.split("\n"):
+                    lines.append(line)
         except Exception:
             pass
         
@@ -126,9 +168,10 @@ def file_readlines(path_file, ecd=''):
         # brute force
         for i, j in enumerate(list_charcode):
             try:
-                with open(path_file, encoding=j) as f:
-                    list_line = f.readlines()
-                    list_line = [line.rstrip() for line in list_line]
+                with open(path_file, 'r', encoding=j) as f:
+                    data = f.read()
+                    for line in data.split("\n"):
+                        lines.append(line)
             except Exception as err:
                 #print("\n{}, file open error".format(j))
                 #print("{}\ncontinue...".format(err))
@@ -140,14 +183,14 @@ def file_readlines(path_file, ecd=''):
                 break
     
     result = cl.namedtuple('result', 'is_ok, encoding, line')
-    return result(is_ok=False if is_none else True, encoding=ecd, line=list_line)
+    return result(is_ok=False if is_none else True, encoding=ecd, line=lines)
 
 """
     String Control
     ex) obj=string_pick(lines_list("[string]", "[file path]")[i])
 """
 class string_pick:
-    def __init__(self, line):
+    def __init__(self, line: str):
         self.line = line
         
     """
@@ -159,7 +202,7 @@ class string_pick:
         ・is_u_strnum=True: the number of strings where the start position of "u" is "+s" and "+t"
         ex) obj.pick("[string1]", s, t, u=obj.set("[string2]", m, n))
     """
-    def pick(self, string, s=None, t=None, u=None, is_u_strnum=False):
+    def pick(self, string: str, s=None, t=None, u=None, is_u_strnum=False) -> str:
         s = self.line.find(string, s) if s is not None else self.line.find(string)
         if t is not None:
             if u is not None:
@@ -191,9 +234,9 @@ class string_pick:
         * When used for "u" ⇒ is_u_strnum=False
         * 0 pieces is 1 piece
         * Return -1 if there is no strings of "n" pieces
-        ex1) obj.set("[string]", m, n)
+        ex) obj.set("[string]", m, n)
     """
-    def set(self, string, m=None, n=1):
+    def set(self, string: str, m=None, n=1) -> int:
         m = self.line.find(string, m) if m is not None else self.line.find(string)
         for _ in range(1, n): m = self.line.find(string, m + 1)
         return m
@@ -205,8 +248,9 @@ class string_pick:
         and get the line number and line list where the character string is located.
     ex) lines_list("[string]", "[file path]", '[encoding name]')    
 """
-def lines_list(string, path_file, ecd=''):
+def lines_list(string: str, path_file: str, ecd='') -> cl.namedtuple:
     is_none = False
+    text = ""
     
     if ecd:
         try:
@@ -225,8 +269,8 @@ def lines_list(string, path_file, ecd=''):
                 #print("\n{}, file open error".format(j))
                 #print("{}\ncontinue...".format(err))
                 if i == len(list_charcode) - 1:
-                    print("Cannot be read. " + path_file)
                     is_none = True
+                    print("Cannot be read. " + path_file)
             else:
                 ecd = j
                 break
@@ -273,8 +317,8 @@ if __name__ == "__main__":
     except Exception:
         pass
 
-    @class_decorator
-    def main_func():
+    @main_decorator
+    def main_func() -> None:
         # folder_create
         folder_create(path_folder)
 
@@ -289,23 +333,31 @@ if __name__ == "__main__":
         print("result: " + str(is_ok))
         python_connection()
 
+        # file_read
+        root = file_read(path_file)
+        for i in root:
+            print(i)
+        python_connection()
+
         # file_readlines
-        lines = file_readlines(path_file)
-        for i in lines:
+        root = file_readlines(path_file)
+        for i in root:
             print(i)
         python_connection()
         
         # lines_list
-        list = lines_list(string0, path_file)
-        for num_line, num_char, line in zip(list.num_line, list.num_char, list.line):
+        root = lines_list(string0, path_file)
+        print(root.is_ok)
+        print(root.encoding)
+        for num_line, num_char, line in zip(root.num_line, root.num_char, root.line):
             print(num_line)
             print(num_char)
             print(line)
         python_connection()
 
         # string_pick
-        list = lines_list(string1, path_file)
-        for i in list.line:
+        root = lines_list(string1, path_file)
+        for i in root.line:
             s = string_pick(i)
             print("----------------------")
             name_string = i[s.set(string1):(s.set(";") if s.set(";") != -1 else len(i))]
@@ -318,8 +370,8 @@ if __name__ == "__main__":
         python_connection()
         
         # string_pick - read function arguments recursively
-        list = lines_list(string2, path_file)
-        for i in list.line:
+        root = lines_list(string2, path_file)
+        for i in root.line:
             s = string_pick(i)
             func_or_val = s.pick("(", s.set(string2), 1, s.set("(", s.set(string2), 2) if s.set("(", s.set(string2), 2) != -1 else s.set(")"))
             print("----------------------")

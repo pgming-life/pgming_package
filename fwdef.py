@@ -15,10 +15,10 @@ ctypes.windll.kernel32.SetStdHandle(_winapi.STD_INPUT_HANDLE, 0)
     Naked Decorator
     details: Debug decorator to display function details.
 """
-def func_naked(func):
+def func_naked(func: "function") -> "function":
     import functools
     @functools.wraps(func)
-    def wrapper(*args, **kwargs):
+    def wrapper(*args: "any", **kwargs: "any") -> "any":
         ret = func(*args, **kwargs)
         print("Funcname  : {}".format(func.__name__))
         print("Arguments : {}".format(args))
@@ -34,7 +34,7 @@ if __name__ == "__main__":
     #from fwdef import *
 
     @func_naked
-    def func(msg1, msg2, flag=False, mode=3):
+    def func(msg1: str, msg2: str, flag=False, mode=3) -> int:
         print(msg1 + " " + msg2)
         return 123456
     

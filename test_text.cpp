@@ -21,18 +21,18 @@ VOID OnDestroy();
 using Microsoft::WRL::ComPtr;
 static const UINT g_frameCount = 2;
 
-ComPtr<ID3D12Device>			g_device;
-ComPtr<IDXGISwapChain3>			g_swapChain;
-ComPtr<ID3D12Resource>			g_renderTargets[g_frameCount];
+ComPtr<ID3D12Device>				g_device;
+ComPtr<IDXGISwapChain3>				g_swapChain;
+ComPtr<ID3D12Resource>				g_renderTargets[g_frameCount];
 ComPtr<ID3D12CommandAllocator>		g_commandAllocator;
-ComPtr<ID3D12CommandQueue>		g_commandQueue;
+ComPtr<ID3D12CommandQueue>			g_commandQueue;
 ComPtr<ID3D12DescriptorHeap>		g_rtvHeap;
-ComPtr<ID3D12PipelineState>		g_pipelineState;
+ComPtr<ID3D12PipelineState>			g_pipelineState;
 ComPtr<ID3D12GraphicsCommandList>	g_commandList;
-static UINT				g_rtvDescriptorSize = 0;
+static UINT							g_rtvDescriptorSize = 0;
 
 // GPU sync object
-static UINT		g_frameIndex = 0;
+static UINT			g_frameIndex = 0;
 static HANDLE		g_fenceEvent;
 ComPtr<ID3D12Fence>	g_fence;
 static UINT64		g_fenceValue;

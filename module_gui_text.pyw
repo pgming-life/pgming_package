@@ -27,7 +27,7 @@ else:
     details: Checking and creating a folder.
     ex) folder_create("[folder path]")
 """
-def folder_create(path_folder):
+def folder_create(path_folder: str) -> cl.namedtuple:
     text_gui = ""
 
     is_none = False
@@ -48,7 +48,7 @@ def folder_create(path_folder):
     details: Checking and creating a file.
     ex) file_create("[file path]", list([text in file]), '[encoding name]')
 """
-def file_create(path_file, string="", ecd=list_charcode[0]):
+def file_create(path_file: str, string="", ecd=list_charcode[0]) -> cl.namedtuple:
     text_gui = ""
    
     is_none = False
@@ -77,18 +77,18 @@ def file_create(path_file, string="", ecd=list_charcode[0]):
     details: Checking a folder and file.
     ex) path_search_end("[folder path | file path]")
 """
-def path_search_end(path):
+def path_search_end(path: str) -> cl.namedtuple:
     text_gui = ""
-   
+
     is_none = False
     if not os.path.exists(path):
         is_none = True
     else:
         text_gui = "Checked. " + path
-       
+
     if is_none:
         text_gui = "There is none... End the process. " + path
-       
+
     result = cl.namedtuple('result', 'is_ok, text')
     return result(is_ok=False if is_none else True, text=text_gui)
 
@@ -97,9 +97,9 @@ def path_search_end(path):
     details: Checking the folder or file.
     ex) path_search_continue("[folder path | file path]")
 """
-def path_search_continue(path):
+def path_search_continue(path: str) -> cl.namedtuple:
     text_gui = ""
-   
+
     is_none = False
     if not os.path.exists(path):
         is_none = True
@@ -117,11 +117,11 @@ def path_search_continue(path):
     details: Read the entire contents of the file as all string.
     ex) file_read("[file path]", '[encoding name]')
 """
-def file_read(path_file, ecd=''):
+def file_read(path_file: str, ecd='') -> cl.namedtuple:
     is_none = False
     text_gui = ""
-    text = []
-   
+    text = ""
+
     if ecd:
         try:
             with open(path_file, 'r', encoding=ecd) as f:
@@ -153,7 +153,7 @@ def file_read(path_file, ecd=''):
     details: Read the entire contents of the file as a line list.
     ex) file_readlines("[file path]", '[encoding name]')
 """
-def file_readlines(path_file, ecd=''):
+def file_readlines(path_file: str, ecd='') -> cl.namedtuple:
     is_none = False
     text_gui = ""
     lines = []
@@ -193,7 +193,7 @@ def file_readlines(path_file, ecd=''):
     ex) obj=string_pick(lines_list("[string]", "[file path]")[i])
 """
 class string_pick:
-    def __init__(self, line):
+    def __init__(self, line: str):
         self.line = line
        
     """
@@ -205,7 +205,7 @@ class string_pick:
         ・is_u_strnum=True: the number of strings where the start position of "u" is "+s" and "+t"
         ex) obj.pick("[string1]", s, t, u=obj.set("[string2]", m, n))
     """
-    def pick(self, string, s=None, t=None, u=None, is_u_strnum=False):
+    def pick(self, string: str, s=None, t=None, u=None, is_u_strnum=False) -> str:
         s = self.line.find(string, s) if s is not None else self.line.find(string)
         if t is not None:
             if u is not None:
@@ -239,7 +239,7 @@ class string_pick:
         * Return -1 if there is no strings of "n" pieces
         ex1) obj.set("[string]", m, n)
     """
-    def set(self, string, m=None, n=1):
+    def set(self, string: str, m=None, n=1) -> int:
         m = self.line.find(string, m) if m is not None else self.line.find(string)
         for _ in range(1, n): m = self.line.find(string, m + 1)
         return m
@@ -251,7 +251,7 @@ class string_pick:
         and get the line number and line list where the character string is located.
     ex) lines_list("[string]", "[file path]", '[encoding name]')  
 """
-def lines_list(string, path_file, ecd=''):
+def lines_list(string: str, path_file: str, ecd='') -> cl.namedtuple:
     is_none = False
     text_gui = ""
     text = ""
@@ -328,55 +328,63 @@ if __name__ == "__main__":
         pass
    
     class ProcessingTarget:
-        def __init__(self, progress_x, progress_y, label_x, label_y):
+        def __init__(self, progress_x: int, progress_y: int, label_x: int, label_y: int):
             self.receiver = ProgressReceiver(progress_x, progress_y)
             self.label_progress = ProgressLabel(label_x, label_y)
+            self.sec = .2
            
-        def target(self):
+        def target(self) -> None:
             # folder_create
             self.label_progress.update(folder_create(path_folder).text)
-           
-            time.sleep(.2)
+            time.sleep(self.sec)
 
             # file_create
             self.label_progress.update(file_create(path_file).text)
-            time.sleep(.2)
+            time.sleep(self.sec)
 
             # path_search_end
             self.label_progress.update(path_search_end(path_file).text)
-            time.sleep(.2)
+            time.sleep(self.sec)
 
             # path_search_continue
             self.label_progress.update(path_search_continue(path_file).text)
-            time.sleep(.2)
+            time.sleep(self.sec)
+
+            # file_read
+            root = file_read(path_file)
+            for i, j in enumerate(root):
+                if i == len(root) - 1:
+                    for line in j.split("\n"):
+                        self.label_progress.update(line)
+                        time.sleep(self.sec * .1)
+                else:
+                    self.label_progress.update(j)
 
             # file_readlines
-            is_ok, encoding, text, lines = file_readlines(path_file)
-            self.label_progress.update(is_ok)
-            time.sleep(.2)
-            self.label_progress.update(encoding)
-            time.sleep(.2)
-            self.label_progress.update(text)
-            time.sleep(.2)
-            for i in lines:
-                self.label_progress.update(i)
-                time.sleep(.02)
+            root = file_readlines(path_file)
+            for i, j in enumerate(root):
+                if i == len(root) - 1:
+                    for line in j:
+                        self.label_progress.update(line)
+                        time.sleep(self.sec * .1)
+                else:
+                    self.label_progress.update(j)
 
             # lines_list
             is_ok, encoding, text, list_num_line, list_num_char, list_line = lines_list(string0, path_file)
             self.label_progress.update(is_ok)
-            time.sleep(.2)
+            time.sleep(self.sec)
             self.label_progress.update(encoding)
-            time.sleep(.2)
+            time.sleep(self.sec)
             self.label_progress.update(text)
-            time.sleep(.2)
+            time.sleep(self.sec)
             for num_line, num_char, line in zip(list_num_line, list_num_char, list_line):
                 self.label_progress.update(num_line)
-                time.sleep(.02)
+                time.sleep(self.sec * .1)
                 self.label_progress.update(num_char)
-                time.sleep(.02)
+                time.sleep(self.sec * .1)
                 self.label_progress.update(line)
-                time.sleep(.02)
+                time.sleep(self.sec * .1)
 
             # string_pick
             list = lines_list(string1, path_file)
@@ -384,13 +392,13 @@ if __name__ == "__main__":
                 s = string_pick(i)
                 name_string = i[s.set(string1):s.set(";")] if s.set(";") != -1 else i[s.set(string1):]
                 self.label_progress.update(name_string)
-                time.sleep(.2)
+                time.sleep(self.sec)
                 name_string = s.pick(string1, None, len(string1)+1, s.set(";"))
                 self.label_progress.update(name_string)
-                time.sleep(.2)
+                time.sleep(self.sec)
                 name_string = s.pick(string1, None, len(string1)+1, 1, is_u_strnum=True)
                 self.label_progress.update(name_string)
-                time.sleep(.2)
+                time.sleep(self.sec)
 
             # string_pick - read function arguments recursively
             list = lines_list(string2, path_file)
@@ -398,18 +406,18 @@ if __name__ == "__main__":
                 s = string_pick(i)
                 func_or_val = s.pick("(", s.set(string2), 1, s.set("(", s.set(string2), 2) if s.set("(", s.set(string2), 2) != -1 else s.set(")"))
                 self.label_progress.update("Name: " + func_or_val)
-                time.sleep(.2)
+                time.sleep(self.sec)
                 if s.set("(", s.set(string2), 2) != -1:
                     m = string_pick(s.pick("(", s.set(s.pick("(", s.set(string2), 1, s.set("(", s.set(string2), 2)))))
                     args = m.pick("(", None, 1, m.set(")", None, m.pick("").count("(")))
                     self.label_progress.update("Args: " + args)
-                    time.sleep(.2)
+                    time.sleep(self.sec)
                     if "," in args:
                         n = string_pick(args)
                         for j in range(1, len(args)):
                             arg = args[(0 if j == 1 else n.set(",", None, j-1) + 1):(n.set(",", None, j) if n.set(",", None, j) != -1 else len(args))]
                             self.label_progress.update("Arg: " + arg.strip())
-                            time.sleep(.2)
+                            time.sleep(self.sec)
                             if n.set(",", None, j) == -1:
                                 break
                         """
@@ -421,7 +429,7 @@ if __name__ == "__main__":
             self.receiver.is_loop = False
             self.label_progress.end("", is_dt=True, is_timer=True)
            
-        def start(self):
+        def start(self) -> None:
             self.thread_target = threading.Thread(target = self.target)
             self.thread_target.setDaemon(True)
             self.thread_target.start()
@@ -439,11 +447,11 @@ if __name__ == "__main__":
             self.target = ProcessingTarget(progress_x=350, progress_y=50, label_x=100, label_y=20)
             self.create_widgets()
            
-        def create_widgets(self):
+        def create_widgets(self) -> None:
             self.button_start = tk.ttk.Button(self, text="START", padding=10, command=self.start_event)
             self.button_start.place(x=100, y=100)
            
-        def start_event(self):
+        def start_event(self) -> None:
             if not self.target.receiver.is_loop:
                 self.target.receiver.is_loop = True
                 self.target.receiver.is_progress = False

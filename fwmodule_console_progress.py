@@ -21,7 +21,7 @@ else:
 """
     Python Start
 """
-def python_start():
+def python_start() -> None:
     label_base = [
         "\nDo you want to run it?",
         "Executes when the Enter key is pressed...",
@@ -55,7 +55,7 @@ def python_start():
     Python Connection
     details: Connection at the time of calculation result output.
 """
-def python_connection():
+def python_connection() -> None:
     lines_move = [
         "            ))",
         "           ((",
@@ -70,21 +70,21 @@ def python_connection():
     details: When the maximum value of range is not decided, it is represented by a guruguru bar.
 """
 class python_sub:
-    def __init__(self, name_calc):
+    def __init__(self, name_calc: str):
         self.name_calc = name_calc
         self.g = guruguru()
         
-    def start(self):
+    def start(self) -> None:
         print("{}...\r".format(self.name_calc), end="")
     
-    def calc(self):
+    def calc(self) -> None:
         print("{0}...{1}\r".format(self.name_calc, next(self.g)), end="")
         
-    def end(self):
+    def end(self) -> None:
         print("{}...OK!!".format(self.name_calc))
 
 # guruguru bar
-def guruguru():
+def guruguru() -> None:
     i = 0
     while 1:
         yield "|/--/"[i % 5]
@@ -99,7 +99,7 @@ def guruguru():
 """
     Python End
 """
-def python_end():
+def python_end() -> exit:
     lines_end = [
         "            ))",
         "           ((",
@@ -115,13 +115,13 @@ def python_end():
     sys.exit()
 
 """
-    Class Decorator
+    Main Decorator
     details:
     ・Has constructor and destructor functionality.
     ・Use for the Main Function.
 """
-def class_decorator(func):
-    def wrapper():
+def main_decorator(func: "function") -> "function":
+    def wrapper() -> None:
         python_start()
         func()
         python_end()
@@ -134,8 +134,8 @@ if __name__ == "__main__":
     #from fwmodule_console_progress import *
 
     # main function
-    @class_decorator
-    def main_func():
+    @main_decorator
+    def main_func() -> None:
         for i in range(5):
             print("output result: " + str(i))
         python_connection()
@@ -146,7 +146,7 @@ if __name__ == "__main__":
         # Sub Calc
         sub = python_sub("Sub Calc")
         sub.start()
-        for i in range(100):
+        for _ in range(100):
             sub.calc()
             time.sleep(.01)
         sub.end()
@@ -154,7 +154,7 @@ if __name__ == "__main__":
 
         # Main Calc
         print("Main Calc")
-        for i in tqdm(range(100)):
+        for _ in tqdm(range(100)):
             time.sleep(.01)
         python_connection()
 

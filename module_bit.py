@@ -10,7 +10,7 @@
     ※Return int
     ex) number_conv(base=0b10100, radix=2, operand=16) = 0x14 (return 20(int))
 """
-def number_conv(base, radix=16, operand=2, is_print=False):
+def number_conv(base: "any", radix=16, operand=2, is_print=False) -> int:
     if radix == 10:
         if operand == 2:
             num = bin(base)
@@ -102,7 +102,7 @@ def number_conv(base, radix=16, operand=2, is_print=False):
     ※Return int
     ex) bit_shift(base=0b10100, shift=3) = 0b10 (return 2(int))
 """
-def bit_shift(base, shift, radix=2, lr="right", is_print=False):
+def bit_shift(base: "any", shift: int, radix=2, lr="right", is_print=False) -> int:
     if radix == 10:
         num0 = bin(base)
         if lr == "left":
@@ -185,7 +185,7 @@ def bit_shift(base, shift, radix=2, lr="right", is_print=False):
     ex) bit_mask(base=0x01000001, mask=0x000000FF) = 0x1 (return 1(int))
         bit_mask(base=bit_shift(0x01000001, 24, 16), mask=0x000000FF) = 0x1 (return 1(int))
 """
-def bit_mask(base, mask, operand=16, is_print=False):
+def bit_mask(base: "any", mask: "any", operand=16, is_print=False) -> int:
     if operand == 2:
         num0 = bin(base)
         num1 = bin(mask)
