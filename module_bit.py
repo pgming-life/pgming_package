@@ -233,4 +233,3 @@ if __name__ == "__main__":
     print("●shift & mask")
     print(bit_mask(bit_shift(0x01000001, 24, 16, "right", is_print=True), 0x000000FF, 16, is_print=True))
     print()
-    

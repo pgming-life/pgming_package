@@ -429,4 +429,3 @@ if __name__ == "__main__":
     
     if app2.target.is_running:
         app2.kill_tkinter()
-        

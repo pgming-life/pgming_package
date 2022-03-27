@@ -73,7 +73,7 @@ def file_create(path_file: str, string="", ecd=list_charcode[0]) -> bool:
     details: Checking the folders and files.
     ex) path_search_end("[folder path]", "[folder path]", "[file path]", ・・・)
 """
-def path_search_end(*args: str, **kwargs: str) -> exit:
+def path_search_end(*args: str, **kwargs: str) -> "exit":
     list_none = []
     for i in args:
         if not os.path.exists(i):

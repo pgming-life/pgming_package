@@ -99,7 +99,7 @@ def guruguru() -> None:
 """
     Python End
 """
-def python_end() -> exit:
+def python_end() -> "exit":
     lines_end = [
         "            ))",
         "           ((",
@@ -176,4 +176,3 @@ if __name__ == "__main__":
 
     # execute
     main_func()
-    
