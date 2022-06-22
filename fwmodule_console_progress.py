@@ -159,17 +159,20 @@ if __name__ == "__main__":
         python_connection()
 
         # self-made progressbar
-        for i in range(1, 21):
-            sys.stdout.write("\r[ %-20s %3.0f%% ]" % ("#" * i, i * 100 / 20))
+        n = 30
+        for i in range(1, n + 1):
+            k = 100 / n * i
+            sys.stdout.write("\r[ %-100s %3.0f%% ]" % ("#" * int(k), k))
             sys.stdout.flush()
             time.sleep(.1)
         print()
         python_connection()
 
         # self-made progress moving
-        for i in range(1, 51):
+        n = 30
+        for i in range(1, n + 1):
             char = "|>-<"[i % 4] 
-            sys.stdout.write("\r%s %3.0f%% done %s" % (char * 10, i * 100 / 50, char * 10))
+            sys.stdout.write("\r%s %3.0f%% done %s" % (char * 10, i * 100 / n, char * 10))
             sys.stdout.flush()
             time.sleep(.1)
         print()
