@@ -61,7 +61,7 @@ def file_create(path_file: str, string="", ecd=list_charcode[0]) -> bool:
             else:   # lines list
                 for i, j in enumerate(string):
                     if i != len(string) - 1:
-                        f.wirtelines("{}\n".format(j))
+                        f.writelines("{}\n".format(j))
                     else:
                         f.writelines("{}".format(j))
         print("Created a file. " + path_file)
