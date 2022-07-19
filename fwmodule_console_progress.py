@@ -159,26 +159,33 @@ if __name__ == "__main__":
         python_connection()
 
         # self-made progressbar
-        n = 30
-        sys.stdout.write("\r[ %-100s %3.0f%% ]" % ("", 0))
-        time.sleep(1)
-        for i in range(1, n):
-            time.sleep(.1)
-            k = 100 / (n - 1) * i
+        output = [""] * 30
+        if len(output) == 0:
+            sys.stdout.write("\r[ %-100s %3.0f%% ]" % ("#" * 100, 100))
+        else:
+            sys.stdout.write("\r[ %-100s %3.0f%% ]" % ("", 0))
+        for i in range(len(output)):
+            k = 100 if len(output) == 1 else 100 / (len(output) - 1) * i
             sys.stdout.write("\r[ %-100s %3.0f%% ]" % ("#" * int(k), k))
             sys.stdout.flush()
+            time.sleep(.1)
         print()
         python_connection()
 
         # self-made progress moving
-        n = 30
-        sys.stdout.write("\r%s %3.0f%% done %s" % ("|" * 10, 0, "|" * 10))
-        time.sleep(1)
-        for i in range(1, n):
-            time.sleep(.1)
-            char = "|>-<"[i % 4]
-            sys.stdout.write("\r%s %3.0f%% done %s" % (char * 10, i * 100 / (n - 1), char * 10))
+        output = [""] * 30
+        output = []
+        if len(output) == 0:
+            sys.stdout.write("\r%s %3.0f%% done %s" % ("|" * 10, 100, "|" * 10))
+        else:
+            sys.stdout.write("\r%s %3.0f%% done %s" % ("|" * 10, 0, "|" * 10))
+        for i in range(len(output)):
+            char = ">-<|"[i % 4]
+            sys.stdout.write("\r%s %3.0f%% done %s" % (char * 10, i * 100 / (len(output) - 1), char * 10))
             sys.stdout.flush()
+            time.sleep(.1)
+        sys.stdout.write("\r%s %3.0f%% done %s" % ("|" * 10, 100, "|" * 10))
+        sys.stdout.flush()
         print()
 
     # execute
