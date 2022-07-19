@@ -165,10 +165,10 @@ if __name__ == "__main__":
         else:
             sys.stdout.write("\r[ %-100s %3.0f%% ]" % ("", 0))
         for i in range(len(output)):
+            time.sleep(.1)
             k = 100 if len(output) == 1 else 100 / (len(output) - 1) * i
             sys.stdout.write("\r[ %-100s %3.0f%% ]" % ("#" * int(k), k))
             sys.stdout.flush()
-            time.sleep(.1)
         print()
         python_connection()
 
@@ -180,10 +180,10 @@ if __name__ == "__main__":
         else:
             sys.stdout.write("\r%s %3.0f%% done %s" % ("|" * 10, 0, "|" * 10))
         for i in range(len(output)):
+            time.sleep(.1)
             char = ">-<|"[i % 4]
             sys.stdout.write("\r%s %3.0f%% done %s" % (char * 10, i * 100 / (len(output) - 1), char * 10))
             sys.stdout.flush()
-            time.sleep(.1)
         sys.stdout.write("\r%s %3.0f%% done %s" % ("|" * 10, 100, "|" * 10))
         sys.stdout.flush()
         print()
