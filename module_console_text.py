@@ -35,7 +35,6 @@ def folder_create(path_folder: str) -> bool:
         print("Checked a folder. " + path_folder)
         
     if is_none:
-        input("\nThere is no folder. {}\nDo you want to create a folder?\nCreate when the Enter key is pressed...".format(path_folder))
         os.makedirs(path_folder, exist_ok=True)
         print("Created a folder. " + path_folder)
     
@@ -44,17 +43,17 @@ def folder_create(path_folder: str) -> bool:
 """
     File Create
     details: Checking and creating a file.
-    ex) file_create("[file path]", list([lines in file]), '[encoding name]') 
+    ex) file_create("[file path]", "[text]" or [[lines list]], '[encoding name]') 
 """
-def file_create(path_file: str, string="", ecd=list_charcode[0]) -> bool:
+def file_create(path_file: str, string="", is_check=True, ecd=list_charcode[0]) -> bool:
     is_none = False
-    if not os.path.exists(path_file):
-        is_none = True
-    else:
-        print("Checked a file. " + path_file)
+    if is_check:
+        if not os.path.exists(path_file):
+            is_none = True
+        else:
+            print("Checked a file. " + path_file)
         
-    if is_none:
-        input("\nThere is no file. {}\nDo you want to create a file?\nCreate when the Enter key is pressed...".format(path_file))
+    if is_none or not is_check:
         with open(path_file, 'w', encoding=ecd) as f:
             if type(string) is str:
                 f.write(string)
@@ -69,11 +68,11 @@ def file_create(path_file: str, string="", ecd=list_charcode[0]) -> bool:
     return False if is_none else True
 
 """
-    Path Search - Warnning End
+    Path Search
     details: Checking the folders and files.
-    ex) path_search_end("[folder path]", "[folder path]", "[file path]", ・・・)
+    ex) path_search("[folder path]", "[folder path]", "[file path]", ・・・)
 """
-def path_search_end(*args: str, **kwargs: str) -> "exit":
+def path_search(*args: str, **kwargs: str) -> "exit":
     list_none = []
     for i in args:
         if not os.path.exists(i):
@@ -90,26 +89,6 @@ def path_search_end(*args: str, **kwargs: str) -> "exit":
         print()
         for i in list_none:
             print("There is no... " + i)
-        input("Please confirm.\nEnd the process. Please close this window.\nCloses the window when the Enter key is pressed...")
-        sys.exit()
-
-"""
-    Path Search - Warnning Continue
-    details: Checking the folder or file.
-    ex) path_search_continue("[folder path | file path]")
-"""
-def path_search_continue(path: str) -> bool:
-    is_none = False
-    if not os.path.exists(path):
-        is_none = True
-    else:
-        print("Checked. " + path)
-        
-    if is_none:
-        print("\nThere is no... " + path)
-        input("Do you want to continue processing?\nContinues when the Enter key is pressed...")
-        
-    return False if is_none else True
 
 """
     Read
@@ -325,11 +304,8 @@ if __name__ == "__main__":
         # file_create
         file_create(path_file)
 
-        # path_search_end
-        path_search_end(path_file)
-
-        # path_search_continue
-        is_ok = path_search_continue(path_file)
+        # path_search
+        is_ok = path_search(path_file)
         print("result: " + str(is_ok))
         python_connection()
 
