@@ -1,5 +1,7 @@
 """fwmodule_general.py"""
 
+import unicodedata
+
 is_release = False
 
 try:
@@ -19,7 +21,7 @@ else:
     from fwdef import *
 
 """
-    Counter
+    Counter Control
     details:
     ・Count each the count().
     ・Return the previous result with the result().
@@ -51,11 +53,31 @@ class counter:
         return self.radix
 
 """
+    Half Width Count
+    details:
+        Count half-width intervals.
+"""
+def half_width_count(char) -> int:
+    res = unicodedata.east_asian_width(char)
+    if 'F' == res:
+        return 2
+    elif 'H' == res:
+        return 1
+    elif 'W' == res:
+        return 2
+    elif 'Na' == res:
+        return 1
+    elif 'A' == res:
+        return 2
+    return 1
+
+"""
     Tests
 """
 if __name__ == "__main__":
     #from fwmodule_general import *
     
+    # counter
     a = counter()
     x = 2
     b = counter(x, 2, "*")
@@ -68,3 +90,11 @@ if __name__ == "__main__":
     print(b.result())           # it is not 1024
     print(int(b.result() / x))  # reduce by one dose
     print(c.result())
+
+    # half_width_count
+    text = "123１２３ABCＡＢＣ"
+    cnt = 0
+    for c in text:
+        cnt += half_width_count(c)
+    print(text)
+    print("-" * cnt)

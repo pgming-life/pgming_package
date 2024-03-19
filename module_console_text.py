@@ -225,7 +225,7 @@ class string_pick:
     details:
         Search the specified file from the input character string
         and get the line number and line list where the character string is located.
-    ex) lines_list("[string]", "[file path]", '[encoding name]')    
+    ex) lines_list("[string]", "[file path]", '[encoding name]')
 """
 def lines_list(string: str, path_file: str, ecd='') -> cl.namedtuple:
     is_none = False
